@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentSolve Admin Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+
+<body class="bg-slate-100 font-sans min-h-screen" x-data="adminPortal()" x-init="init()">
+    <!-- Header -->
+    <header class="bg-slate-900 text-white p-4 flex justify-between items-center shadow-md">
+        <h1 class="text-xl font-bold tracking-tight">StudentSolve Operations Dashboard</h1>
+        <div class="flex items-center space-x-4">
+            <template x-if="isAuthenticated">
+                <button @click="logout()"
+                    class="text-xs bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded-lg transition">Log
+                    Out</button>
+            </template>
+            <a href="/" class="text-sm text-slate-300 hover:text-white">Go to Website</a>
+        </div>
+    </header>
+
+    <!-- Admin Login Modal Overlay (Shown when unauthenticated or session expired) -->
+    <div x-show="!isAuthenticated"
+        class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-8">
+            <div class="text-center mb-6">
+                <div
+                    class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                    🔐</div>
+                <h2 class="text-2xl font-black text-slate-800">Admin Authentication</h2>
+                <p class="text-xs text-slate-500 mt-1">Please sign in with administrator credentials to continue</p>
+            </div>
+
+            <form @submit.prevent="login()" class="space-y-4">
+                <div x-show="errorMessage"
+                    class="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs font-semibold"
+                    x-text="errorMessage"></div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Admin Email</label>
+                    <input type="email" x-model="loginEmail" required
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Password</label>
+                    <input type="password" x-model="loginPassword" required
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <button type="submit" :disabled="loading"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-indigo-600/30 flex justify-center items-center">
+                    <span x-show="!loading">Sign In to Dashboard</span>
+                    <span x-show="loading" class="animate-pulse">Authenticating...</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <main x-show="isAuthenticated" class="max-w-7xl mx-auto p-6 space-y-6">
+        <!-- Platform Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs text-slate-500 font-bold uppercase">Total Students</span>
+                <p class="text-2xl font-black text-slate-800" x-text="metrics.students"></p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs text-slate-500 font-bold uppercase">Total Orders</span>
+                <p class="text-2xl font-black text-slate-800" x-text="metrics.orders"></p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs text-slate-500 font-bold uppercase">Active Projects</span>
+                <p class="text-2xl font-black text-indigo-600" x-text="metrics.activeProjects"></p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs text-slate-500 font-bold uppercase">Total Revenue</span>
+                <p class="text-2xl font-black text-emerald-600">₦<span
+                        x-text="metrics.revenue.toLocaleString('en-NG')"></span></p>
+            </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-5 border-b border-slate-200 flex justify-between items-center">
+                <h3 class="font-bold text-slate-800">Recent Customer Submissions</h3>
+                <button @click="loadData()" class="text-xs text-indigo-600 hover:underline font-semibold">Refresh
+                    List</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase">
+                        <tr>
+                            <th class="p-3">Order ID</th>
+                            <th class="p-3">Student</th>
+                            <th class="p-3">Service</th>
+                            <th class="p-3">Deadline</th>
+                            <th class="p-3">Amount</th>
+                            <th class="p-3">Stage</th>
+                            <th class="p-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="order in orders" :key="order.id">
+                            <tr class="border-b border-slate-100 hover:bg-slate-50">
+                                <td class="p-3 font-mono font-bold text-indigo-700" x-text="order.id"></td>
+                                <td class="p-3">
+                                    <div class="font-bold text-slate-800" x-text="order.student_name"></div>
+                                    <div class="text-[10px] text-slate-400" x-text="order.student_email"></div>
+                                </td>
+                                <td class="p-3" x-text="order.service"></td>
+                                <td class="p-3" x-text="order.deadline"></td>
+                                <td class="p-3 font-bold text-emerald-700">₦<span
+                                        x-text="order.amount.toLocaleString('en-NG')"></span></td>
+                                <td class="p-3">
+                                    <select @change="updateStage(order.id, $event.target.value)"
+                                        class="bg-slate-50 border border-slate-200 rounded p-1 font-semibold text-slate-700">
+                                        <option value="0" :selected="order.stage === 0">0 - Consultation Scheduled
+                                        </option>
+                                        <option value="1" :selected="order.stage === 1">1 - Settlement Confirmed
+                                        </option>
+                                        <option value="2" :selected="order.stage === 2">2 - In Progress</option>
+                                        <option value="3" :selected="order.stage === 3">3 - Under Review</option>
+                                        <option value="4" :selected="order.stage === 4">4 - Delivered</option>
+                                    </select>
+                                </td>
+                                <td class="p-3">
+                                    <a :href="'https://wa.me/2347035131909?text=' + encodeURIComponent('Update on ' + order.id)"
+                                        target="_blank"
+                                        class="inline-block bg-indigo-50 text-indigo-600 font-bold hover:bg-indigo-100 px-2.5 py-1 rounded transition">WhatsApp</a>
+                                </td>
+                            </tr>
+                        </template>
+                        <tr x-show="orders.length === 0">
+                            <td colspan="7" class="p-6 text-center text-slate-400">No submissions recorded yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function adminPortal() {
+            return {
+                isAuthenticated: false,
+                loading: false,
+                errorMessage: '',
+                loginEmail: 'admin@studentsolve.ng',
+                loginPassword: '',
+                metrics: { students: 0, orders: 0, revenue: 0, activeProjects: 0 },
+                orders: [],
+
+                async init() {
+                    await this.loadData();
+                },
+
+                async loadData() {
+                    try {
+                        const m = await fetch('/api/admin/metrics');
+                        if (m.status === 401 || m.status === 403) {
+                            this.isAuthenticated = false;
+                            return;
+                        }
+
+                        if (m.ok) {
+                            this.metrics = await m.json();
+                            this.isAuthenticated = true;
+                        }
+
+                        const o = await fetch('/api/admin/orders');
+                        if (o.ok) {
+                            const d = await o.json();
+                            this.orders = d.orders || [];
+                        }
+                    } catch (e) {
+                        this.isAuthenticated = false;
+                    }
+                },
+
+                async login() {
+                    this.loading = true;
+                    this.errorMessage = '';
+                    try {
+                        const res = await fetch('/api/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: this.loginEmail,
+                                password: this.loginPassword
+                            })
+                        });
+
+                        const data = await res.json();
+                        if (!res.ok) {
+                            this.errorMessage = data.error || 'Login failed';
+                            this.loading = false;
+                            return;
+                        }
+
+                        if (data.user?.role !== 'admin') {
+                            this.errorMessage = 'Forbidden: This account does not have admin privileges';
+                            this.loading = false;
+                            return;
+                        }
+
+                        this.isAuthenticated = true;
+                        this.loginPassword = '';
+                        await this.loadData();
+                    } catch (err) {
+                        this.errorMessage = 'Network error while attempting to sign in';
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
+                async logout() {
+                    await fetch('/api/auth/logout', { method: 'POST' });
+                    this.isAuthenticated = false;
+                    this.orders = [];
+                    this.metrics = { students: 0, orders: 0, revenue: 0, activeProjects: 0 };
+                },
+
+                async updateStage(id, stage) {
+                    const stageNum = parseInt(stage, 10);
+                    const stageMap = {
+                        0: 'Consultation Scheduled',
+                        1: 'Settlement Confirmed',
+                        2: 'In Progress',
+                        3: 'Under Review',
+                        4: 'Delivered'
+                    };
+                    try {
+                        const res = await fetch(`/api/admin/orders/${id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                stage: stageNum,
+                                status: stageMap[stageNum] || 'In Progress'
+                            })
+                        });
+                        if (res.ok) {
+                            const target = this.orders.find(o => o.id === id);
+                            if (target) {
+                                target.stage = stageNum;
+                                target.status = stageMap[stageNum];
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Failed to update stage', err);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

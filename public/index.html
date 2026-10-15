@@ -1,0 +1,3671 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="StudentSolve — Ethical academic support for Nigerian students: proofreading, typesetting, thesis mentorship, data analysis, presentations, and print-ready preparation."
+    />
+    <meta name="theme-color" content="#4f46e5" />
+    <title>StudentSolve — Academic Problems? Let's Solve Them.</title>
+    <!-- Tailwind CSS (Play CDN: Compile with Tailwind CLI for high-traffic production) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: "#eef2ff",
+                100: "#e0e7ff",
+                200: "#c7d2fe",
+                300: "#a5b4fc",
+                400: "#818cf8",
+                500: "#6366f1",
+                600: "#4f46e5",
+                700: "#4338ca",
+                800: "#3730a3",
+                900: "#312e81",
+              },
+              accent: {
+                50: "#f0f9ff",
+                100: "#e0f2fe",
+                200: "#bae6fd",
+                400: "#38bdf8",
+                500: "#0ea5e9",
+                600: "#0284c7",
+                700: "#0369a1",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+    <!-- Alpine.js Core & Plugins -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.14.1/dist/cdn.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
+    ></script>
+    <!-- Paystack Inline Checkout -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+      [x-cloak] {
+        display: none !important;
+      }
+
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .gradient-hero {
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(99, 102, 241, 0.12),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 10% 20%,
+            rgba(14, 165, 233, 0.08),
+            transparent 35%
+          );
+      }
+
+      section[id] {
+        scroll-margin-top: 7.5rem;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary-500 selection:text-white"
+    x-data="studentSolveApp()"
+    x-init="initApp()"
+    @keydown.escape.window="closeTopMostModal()"
+  >
+    <!-- ================= TOP NOTICE BANNER ================= -->
+    <aside
+      aria-label="Platform Announcement"
+      class="bg-gradient-to-r from-primary-900 via-primary-800 to-indigo-950 text-white text-xs sm:text-sm py-2 px-4 shadow-sm"
+    >
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div class="flex items-center space-x-2">
+          <span
+            class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+          >
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 mr-1"></i> Ethical
+            Academic Help
+          </span>
+          <span class="hidden md:inline text-slate-300">
+            Direct Nigerian student pricing (₦). Research advisors,
+            statisticians &amp; formatting specialists available 24/7.
+          </span>
+        </div>
+        <div
+          class="flex items-center space-x-4 text-xs font-medium flex-shrink-0"
+        >
+          <span class="text-amber-300 hidden sm:flex items-center gap-1">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i> Express Turnaround
+            Available
+          </span>
+          <a href="#services" class="text-slate-300 hover:text-white underline"
+            >Explore Catalog</a
+          >
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= STICKY HEADER / NAV ================= -->
+    <header
+      class="sticky top-0 z-40 w-full glassmorphism border-b border-slate-200/80 transition-all"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <!-- Logo -->
+          <a href="#top" class="flex items-center space-x-3 group">
+            <div
+              class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-primary-700 to-accent-500 flex items-center justify-center text-white shadow-md shadow-primary-500/20 group-hover:scale-105 transition-transform duration-300"
+            >
+              <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <span
+                class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-primary-600 transition-colors"
+              >
+                Student<span class="text-primary-600">Solve</span>
+              </span>
+              <span
+                class="block text-[10px] tracking-wider font-semibold text-slate-500 uppercase"
+                >Academic Support Platform</span
+              >
+            </div>
+          </a>
+          <!-- Desktop Navigation Links -->
+          <nav
+            class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-600"
+          >
+            <a
+              href="#services"
+              class="hover:text-primary-600 transition-colors font-semibold"
+              >Services</a
+            >
+            <a
+              href="#estimator"
+              class="hover:text-primary-600 transition-colors flex items-center gap-1.5"
+            >
+              <span>Price Calculator (₦)</span>
+              <span
+                class="text-[10px] bg-primary-100 text-primary-700 font-bold px-1.5 py-0.5 rounded"
+                >Instant</span
+              >
+            </a>
+            <a
+              href="#how-it-works"
+              class="hover:text-primary-600 transition-colors"
+              >How It Works</a
+            >
+            <a
+              href="#integrity"
+              class="hover:text-primary-600 transition-colors"
+              >Academic Ethics</a
+            >
+            <a href="#faq" class="hover:text-primary-600 transition-colors"
+              >FAQ</a
+            >
+          </nav>
+          <!-- Dynamic Auth / Actions Menu -->
+          <div class="hidden sm:flex items-center space-x-3">
+            <template x-if="!userLoggedIn">
+              <div class="flex items-center space-x-3">
+                <button
+                  type="button"
+                  @click="openLoginModal()"
+                  class="inline-flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:text-primary-700 hover:bg-slate-100 transition duration-150 border border-slate-200"
+                >
+                  <i
+                    data-lucide="log-in"
+                    class="w-4 h-4 mr-2 text-primary-600"
+                  ></i>
+                  Student Portal
+                </button>
+                <button
+                  type="button"
+                  @click="openSignupModal()"
+                  class="inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 shadow-lg shadow-primary-600/25 hover:shadow-primary-600/35 transition-all duration-200 transform hover:-translate-y-0.5"
+                >
+                  <span>Get Started</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </button>
+              </div>
+            </template>
+            <template x-if="userLoggedIn">
+              <div
+                class="flex items-center space-x-3"
+                x-data="{ userMenuOpen: false }"
+              >
+                <div
+                  class="flex items-center bg-primary-50/90 border border-primary-200/90 px-3.5 py-2 rounded-2xl"
+                >
+                  <span class="text-xs text-slate-600 mr-2 font-medium">
+                    Welcome,
+                    <strong
+                      class="text-primary-700 font-bold"
+                      x-text="firstName"
+                    ></strong
+                    >!
+                  </span>
+                  <button
+                    type="button"
+                    @click="openPortal('orders')"
+                    class="inline-flex items-center px-3 py-1 rounded-xl text-xs font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-sm transition"
+                  >
+                    <i
+                      data-lucide="layout-dashboard"
+                      class="w-3.5 h-3.5 mr-1.5"
+                    ></i>
+                    <span>My Dashboard</span>
+                    <template x-if="userProjects.length > 0">
+                      <span
+                        class="ml-1.5 px-1.5 py-0.5 bg-white text-primary-700 rounded-full text-[10px] font-bold leading-none"
+                        x-text="userProjects.length"
+                      ></span>
+                    </template>
+                  </button>
+                </div>
+                <div class="relative">
+                  <button
+                    type="button"
+                    @click="userMenuOpen = !userMenuOpen"
+                    @click.outside="userMenuOpen = false"
+                    :aria-expanded="userMenuOpen"
+                    aria-haspopup="true"
+                    class="flex items-center space-x-2 p-1.5 rounded-full hover:bg-slate-100 transition focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  >
+                    <div
+                      class="w-9 h-9 rounded-full bg-gradient-to-tr from-primary-600 to-indigo-700 text-white flex items-center justify-center font-bold text-sm shadow-sm"
+                    >
+                      <span x-text="currentUser.initials"></span>
+                    </div>
+                    <i
+                      data-lucide="chevron-down"
+                      class="w-4 h-4 text-slate-500"
+                    ></i>
+                  </button>
+                  <div
+                    x-show="userMenuOpen"
+                    x-cloak
+                    x-transition.opacity.duration.120ms
+                    class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50"
+                  >
+                    <div class="px-4 py-3 border-b border-slate-100">
+                      <p
+                        class="text-sm font-semibold text-slate-900"
+                        x-text="currentUser.name"
+                      ></p>
+                      <p
+                        class="text-xs text-slate-500 truncate"
+                        x-text="currentUser.email"
+                      ></p>
+                      <span
+                        class="inline-block mt-1 text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full"
+                      >
+                        Verified Student
+                      </span>
+                    </div>
+                    <div class="py-1 text-sm">
+                      <button
+                        type="button"
+                        @click="openPortal('orders'); userMenuOpen = false"
+                        class="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center justify-between text-slate-700"
+                      >
+                        <span class="flex items-center"
+                          ><i
+                            data-lucide="folder-check"
+                            class="w-4 h-4 mr-2 text-slate-400"
+                          ></i>
+                          My Projects</span
+                        >
+                        <span
+                          class="bg-slate-100 text-slate-700 text-xs px-2 py-0.5 rounded-full font-bold"
+                          x-text="userProjects.length"
+                        ></span>
+                      </button>
+                      <button
+                        type="button"
+                        @click="openQuickBookingModal(); userMenuOpen = false"
+                        class="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center text-slate-700"
+                      >
+                        <i
+                          data-lucide="plus-circle"
+                          class="w-4 h-4 mr-2 text-primary-600"
+                        ></i>
+                        Request New Service
+                      </button>
+                      <a
+                        href="#services"
+                        @click="userMenuOpen = false"
+                        class="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center text-slate-700"
+                      >
+                        <i
+                          data-lucide="layers"
+                          class="w-4 h-4 mr-2 text-slate-400"
+                        ></i>
+                        Browse Catalog
+                      </a>
+                    </div>
+                    <div class="border-t border-slate-100 pt-1">
+                      <button
+                        type="button"
+                        @click="handleLogout()"
+                        class="w-full text-left px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 flex items-center"
+                      >
+                        <i data-lucide="log-out" class="w-4 h-4 mr-2"></i> Log
+                        Out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+          <!-- Mobile Hamburger Button -->
+          <button
+            type="button"
+            @click="mobileMenuOpen = !mobileMenuOpen"
+            class="lg:hidden p-2.5 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"
+            :aria-expanded="mobileMenuOpen"
+            aria-label="Toggle navigation"
+          >
+            <span x-show="!mobileMenuOpen"
+              ><i data-lucide="menu" class="w-6 h-6"></i
+            ></span>
+            <span x-show="mobileMenuOpen" x-cloak
+              ><i data-lucide="x" class="w-6 h-6"></i
+            ></span>
+          </button>
+        </div>
+      </div>
+      <!-- Mobile Drawer -->
+      <div
+        x-show="mobileMenuOpen"
+        x-cloak
+        class="lg:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 py-5 space-y-4"
+      >
+        <template x-if="userLoggedIn">
+          <div class="pb-3 border-b border-slate-100">
+            <p class="text-xs text-slate-500 font-medium">Signed in as</p>
+            <p
+              class="text-sm font-bold text-slate-900"
+              x-text="currentUser.name"
+            ></p>
+          </div>
+        </template>
+        <a
+          @click="mobileMenuOpen = false"
+          href="#services"
+          class="block py-2 font-medium text-slate-700"
+          >Services Catalog</a
+        >
+        <a
+          @click="mobileMenuOpen = false"
+          href="#estimator"
+          class="block py-2 font-medium text-slate-700"
+          >Price Calculator (₦)</a
+        >
+        <a
+          @click="mobileMenuOpen = false"
+          href="#how-it-works"
+          class="block py-2 font-medium text-slate-700"
+          >How It Works</a
+        >
+        <a
+          @click="mobileMenuOpen = false"
+          href="#integrity"
+          class="block py-2 font-medium text-slate-700"
+          >Academic Integrity</a
+        >
+        <a
+          @click="mobileMenuOpen = false"
+          href="#faq"
+          class="block py-2 font-medium text-slate-700"
+          >FAQ</a
+        >
+        <div class="pt-4 border-t border-slate-200 space-y-2">
+          <template x-if="!userLoggedIn">
+            <div class="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                @click="mobileMenuOpen = false; openLoginModal()"
+                class="w-full py-2.5 text-center font-semibold rounded-xl border border-slate-300 text-slate-700 bg-white"
+              >
+                Student Portal
+              </button>
+              <button
+                type="button"
+                @click="mobileMenuOpen = false; openSignupModal()"
+                class="w-full py-2.5 text-center font-semibold rounded-xl text-white bg-primary-600"
+              >
+                Get Started
+              </button>
+            </div>
+          </template>
+          <template x-if="userLoggedIn">
+            <div class="space-y-2">
+              <button
+                type="button"
+                @click="mobileMenuOpen = false; openPortal('orders')"
+                class="w-full py-2.5 text-center font-semibold rounded-xl text-white bg-primary-600"
+              >
+                Access My Dashboard
+              </button>
+              <button
+                type="button"
+                @click="handleLogout()"
+                class="w-full py-2 text-center text-sm font-medium text-rose-600"
+              >
+                Sign Out
+              </button>
+            </div>
+          </template>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ================= HERO SECTION ================= -->
+      <section
+        class="relative pt-12 pb-20 md:pt-20 md:pb-28 gradient-hero overflow-hidden"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+              <div
+                class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-200/80 text-primary-700 text-xs sm:text-sm font-semibold tracking-wide"
+              >
+                <span
+                  class="flex h-2 w-2 rounded-full bg-primary-600 animate-pulse"
+                ></span>
+                Originality Assured • 100% Confidential • Professional Guidance
+              </div>
+              <h1
+                class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.12]"
+              >
+                Academic Problems? <br />
+                <span
+                  class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-indigo-600 to-accent-500"
+                >
+                  Let's Solve Them.
+                </span>
+              </h1>
+              <p
+                class="text-base sm:text-lg lg:text-xl text-slate-600 font-normal max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              >
+                Access experienced academic support, precise thesis typesetting,
+                data analytics, defense slide designs, and verified Nigerian
+                student services.
+              </p>
+              <div class="pt-3">
+                <template x-if="!userLoggedIn">
+                  <div
+                    class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+                  >
+                    <button
+                      type="button"
+                      @click="openSignupModal()"
+                      class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-2xl text-base font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-xl shadow-primary-600/30 hover:shadow-primary-600/40 transition-all duration-200 transform hover:-translate-y-0.5"
+                    >
+                      <span>Get Started</span>
+                      <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+                    </button>
+                    <a
+                      href="#services"
+                      class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 rounded-2xl text-base font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 shadow-sm transition duration-150"
+                    >
+                      <i
+                        data-lucide="layers"
+                        class="w-5 h-5 mr-2 text-slate-500"
+                      ></i>
+                      <span>Explore Services</span>
+                    </a>
+                  </div>
+                </template>
+                <template x-if="userLoggedIn">
+                  <div
+                    class="bg-white/80 backdrop-blur-md border border-primary-200 rounded-3xl p-5 shadow-lg space-y-4 max-w-xl mx-auto lg:mx-0"
+                  >
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-10 h-10 rounded-2xl bg-primary-600 text-white flex items-center justify-center font-bold text-sm"
+                      >
+                        <span x-text="currentUser.initials"></span>
+                      </div>
+                      <div class="text-left">
+                        <p class="text-base font-bold text-slate-900">
+                          Welcome back,
+                          <span
+                            class="text-primary-600"
+                            x-text="firstName"
+                          ></span
+                          >!
+                        </p>
+                        <p class="text-xs text-slate-500">
+                          What project can our specialists help you with today?
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center gap-3">
+                      <a
+                        href="#services"
+                        class="w-full sm:w-auto flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 shadow-md transition"
+                      >
+                        <i data-lucide="layers" class="w-4 h-4 mr-2"></i> Browse
+                        Services
+                      </a>
+                      <button
+                        type="button"
+                        @click="openPortal('orders')"
+                        class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition"
+                      >
+                        <i
+                          data-lucide="layout-dashboard"
+                          class="w-4 h-4 mr-2 text-primary-600"
+                        ></i>
+                        My Dashboard
+                      </button>
+                    </div>
+                  </div>
+                </template>
+              </div>
+              <div
+                class="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 text-center lg:text-left"
+              >
+                <div>
+                  <p class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                    14,200+
+                  </p>
+                  <p class="text-xs sm:text-sm text-slate-600">
+                    Students Supported
+                  </p>
+                </div>
+                <div>
+                  <p class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                    99.4%
+                  </p>
+                  <p class="text-xs sm:text-sm text-slate-600">
+                    On-Time Delivery
+                  </p>
+                </div>
+                <div>
+                  <p class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                    4.9/5
+                  </p>
+                  <p
+                    class="text-xs sm:text-sm text-slate-600 flex items-center justify-center lg:justify-start gap-1"
+                  >
+                    <span>Rating</span>
+                    <i
+                      data-lucide="star"
+                      class="w-3.5 h-3.5 fill-amber-400 text-amber-400 inline"
+                    ></i>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 relative">
+              <div class="relative mx-auto max-w-md lg:max-w-none">
+                <div
+                  class="absolute -inset-1.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-3xl blur-xl opacity-25"
+                ></div>
+                <div
+                  class="relative rounded-3xl bg-white p-6 sm:p-7 shadow-2xl border border-slate-100 space-y-5"
+                >
+                  <div
+                    class="flex items-center justify-between pb-4 border-b border-slate-100"
+                  >
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center"
+                      >
+                        <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm font-bold text-slate-900">
+                          Fast Academic Desk
+                        </p>
+                        <p class="text-xs text-slate-500">
+                          Student direct channel
+                        </p>
+                      </div>
+                    </div>
+                    <span
+                      class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80 flex items-center gap-1.5"
+                    >
+                      <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                      Active Now
+                    </span>
+                  </div>
+                  <div class="space-y-3 text-xs text-slate-600">
+                    <div
+                      class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/70 space-y-2"
+                    >
+                      <div class="flex justify-between gap-3 font-medium">
+                        <span class="text-slate-500">Pricing Basis</span>
+                        <span class="text-slate-800 font-semibold text-right"
+                          >Transparent Rates (₦)</span
+                        >
+                      </div>
+                      <div class="flex justify-between gap-3 font-medium">
+                        <span class="text-slate-500">Supported Files</span>
+                        <span class="text-slate-800 font-semibold text-right"
+                          >DOCX, PDF, XLSX, PPTX, SAV</span
+                        >
+                      </div>
+                      <div class="flex justify-between gap-3 font-medium">
+                        <span class="text-slate-500">Revisions</span>
+                        <span class="text-emerald-600 font-semibold text-right"
+                          >7-Day Free Support</span
+                        >
+                      </div>
+                    </div>
+                    <div
+                      class="p-3 bg-indigo-50/70 rounded-xl border border-indigo-100 text-slate-700"
+                    >
+                      <p class="font-semibold text-slate-900 mb-0.5">
+                        Need customized consultation?
+                      </p>
+                      <p class="text-[11px] leading-relaxed">
+                        Launch a brief, define your requirements, and receive a
+                        guaranteed direct quote immediately.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    @click="openQuickBookingModal('General Academic Consultation', 0)"
+                    class="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition shadow-md group"
+                  >
+                    <i
+                      data-lucide="paperclip"
+                      class="w-4 h-4 text-accent-400 group-hover:rotate-45 transition-transform"
+                    ></i>
+                    <span>Submit Consultation Brief</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SERVICES DIRECTORY ================= -->
+      <section
+        id="services"
+        class="py-20 bg-slate-50 border-t border-slate-200/80"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-3xl mx-auto mb-12">
+            <template x-if="userLoggedIn">
+              <span
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary-100 text-primary-700 mb-2"
+              >
+                <i data-lucide="user-check" class="w-3.5 h-3.5"></i> Welcome,
+                <span x-text="firstName"></span> • Select your task below
+              </span>
+            </template>
+            <h2
+              class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1 tracking-tight"
+            >
+              Academic Services Directory
+            </h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-3">
+              Configured for Nigerian higher institutions with student-friendly
+              pricing, adherence to institutional honor codes, and verified
+              experts.
+            </p>
+          </div>
+          <!-- Filters & Search -->
+          <div
+            class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8"
+          >
+            <div class="flex items-center flex-wrap gap-2">
+              <template x-for="cat in categories" :key="cat.id">
+                <button
+                  type="button"
+                  @click="selectedCategory = cat.id"
+                  :aria-pressed="selectedCategory === cat.id"
+                  :class="selectedCategory === cat.id ? 'bg-primary-600 text-white shadow-sm' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'"
+                  class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition duration-150"
+                  x-text="cat.name"
+                ></button>
+              </template>
+            </div>
+            <div class="relative w-full md:w-72">
+              <i
+                data-lucide="search"
+                class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+              ></i>
+              <label for="serviceSearch" class="sr-only">Search services</label>
+              <input
+                id="serviceSearch"
+                type="search"
+                x-model="searchQuery"
+                placeholder="Search (e.g., SPSS, APA, Thesis)..."
+                class="w-full pl-10 pr-9 py-2.5 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
+              />
+              <button
+                type="button"
+                x-show="searchQuery"
+                x-cloak
+                @click="searchQuery = ''"
+                aria-label="Clear search"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Empty state -->
+          <div
+            x-show="filteredServices.length === 0"
+            x-cloak
+            class="text-center py-14 rounded-2xl border-2 border-dashed border-slate-200 bg-white"
+          >
+            <i
+              data-lucide="search-x"
+              class="w-10 h-10 text-slate-400 mx-auto mb-3"
+            ></i>
+            <p class="font-bold text-slate-800 text-sm">
+              No services matched your query
+            </p>
+            <p class="text-xs text-slate-500 mt-1">
+              Try clearing your search term or select another category.
+            </p>
+            <button
+              type="button"
+              @click="searchQuery = ''; selectedCategory = 'all'"
+              class="mt-4 px-4 py-2 rounded-xl bg-primary-600 text-white text-xs font-bold hover:bg-primary-700 transition"
+            >
+              Reset filters
+            </button>
+          </div>
+          <!-- Services Grid -->
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="service in filteredServices" :key="service.id">
+              <div
+                class="bg-white rounded-2xl p-6 border border-slate-200 hover:border-primary-300 hover:shadow-xl transition-all duration-200 flex flex-col justify-between group"
+              >
+                <div>
+                  <div class="flex items-start justify-between mb-4">
+                    <div
+                      :class="service.color"
+                      class="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform"
+                    >
+                      <i :data-lucide="service.icon" class="w-6 h-6"></i>
+                    </div>
+                    <span
+                      class="text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full bg-slate-100 text-slate-600"
+                      x-text="service.badge"
+                    ></span>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors"
+                    x-text="service.title"
+                  ></h3>
+                  <p
+                    class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed"
+                    x-text="service.desc"
+                  ></p>
+                  <div class="mt-4 flex flex-wrap gap-1.5">
+                    <template
+                      x-for="feature in service.highlights"
+                      :key="feature"
+                    >
+                      <span
+                        class="text-[11px] font-medium bg-slate-50 border border-slate-200/70 text-slate-600 px-2 py-0.5 rounded-md"
+                        x-text="feature"
+                      ></span>
+                    </template>
+                  </div>
+                </div>
+                <div
+                  class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between"
+                >
+                  <div>
+                    <span
+                      class="text-[10px] uppercase font-semibold text-slate-500 block"
+                      >Pricing</span
+                    >
+                    <span
+                      class="text-sm font-bold text-slate-900"
+                      x-text="service.startingPrice"
+                    ></span>
+                  </div>
+                  <button
+                    type="button"
+                    @click="handleServiceBooking(service)"
+                    class="inline-flex items-center text-xs font-bold text-primary-600 bg-primary-50 hover:bg-primary-600 hover:text-white px-3.5 py-2 rounded-xl transition-all"
+                  >
+                    <span>Request Task</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-1"></i>
+                  </button>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PRICE ESTIMATOR ================= -->
+      <section id="estimator" class="py-20 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5 space-y-4">
+              <span
+                class="text-primary-600 font-bold text-xs uppercase tracking-wider"
+                >Transparent Computation</span
+              >
+              <h2
+                class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight"
+              >
+                Live Fee &amp; Timeline Calculator (₦)
+              </h2>
+              <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                No surprise fees or arbitrary minimum floors. Under standard
+                undergraduate turnaround, proofreading is strictly
+                <strong>₦500 / page</strong> and typesetting is
+                <strong>₦200 / page</strong>.
+              </p>
+              <div class="space-y-3 pt-3 text-sm text-slate-700">
+                <div class="flex items-center space-x-3">
+                  <i
+                    data-lucide="check-circle-2"
+                    class="w-5 h-5 text-emerald-600 flex-shrink-0"
+                  ></i>
+                  <span
+                    >Zero arbitrary baseline marks (pay only for exact
+                    scope)</span
+                  >
+                </div>
+                <div class="flex items-center space-x-3">
+                  <i
+                    data-lucide="check-circle-2"
+                    class="w-5 h-5 text-emerald-600 flex-shrink-0"
+                  ></i>
+                  <span
+                    >Citation conformity (APA 7th, IEEE, Harvard, Chicago,
+                    MLA)</span
+                  >
+                </div>
+                <div class="flex items-center space-x-3">
+                  <i
+                    data-lucide="check-circle-2"
+                    class="w-5 h-5 text-emerald-600 flex-shrink-0"
+                  ></i>
+                  <span>Free 7-day post-delivery corrections window</span>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-7">
+              <div
+                class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800"
+              >
+                <h3
+                  class="text-xl font-bold flex items-center gap-2 mb-6 text-white"
+                >
+                  <i
+                    data-lucide="calculator"
+                    class="w-5 h-5 text-accent-400"
+                  ></i>
+                  <span>Instant Cost Estimator (₦)</span>
+                </h3>
+                <div class="grid sm:grid-cols-2 gap-5">
+                  <div class="space-y-1.5">
+                    <label
+                      for="estService"
+                      class="text-xs font-semibold text-slate-300 block"
+                      >Service Needed</label
+                    >
+                    <select
+                      id="estService"
+                      x-model="estimator.service"
+                      class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                    >
+                      <template x-for="(cfg, key) in pricing" :key="key">
+                        <option :value="key" x-text="cfg.label"></option>
+                      </template>
+                    </select>
+                  </div>
+                  <div class="space-y-1.5">
+                    <label
+                      for="estLevel"
+                      class="text-xs font-semibold text-slate-300 block"
+                      >Academic Level</label
+                    >
+                    <select
+                      id="estLevel"
+                      x-model="estimator.level"
+                      class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                    >
+                      <option value="undergrad">
+                        Undergraduate (ND / HND / BSc) — 1.0x
+                      </option>
+                      <option value="masters">
+                        Master's (PGD / MSc) — 1.25x
+                      </option>
+                      <option value="phd">PhD / Doctoral — 1.5x</option>
+                      <option value="career">
+                        Professional / Career — 1.15x
+                      </option>
+                    </select>
+                  </div>
+                  <div class="sm:col-span-2 space-y-2 pt-2">
+                    <div
+                      class="flex justify-between items-center text-xs font-semibold"
+                    >
+                      <label for="estVolume" class="text-slate-300"
+                        >Volume / Quantity:</label
+                      >
+                      <span class="text-accent-400 text-sm font-bold">
+                        <span x-text="estimator.volume"></span>
+                        <span x-text="unitLabel"></span>
+                      </span>
+                    </div>
+                    <input
+                      id="estVolume"
+                      type="range"
+                      min="1"
+                      :max="maxVolume"
+                      x-model.number="estimator.volume"
+                      class="w-full accent-primary-500 bg-slate-700 h-2 rounded-lg cursor-pointer"
+                    />
+                    <div
+                      class="flex justify-between text-[10px] text-slate-400 font-mono"
+                    >
+                      <span>1</span>
+                      <span x-text="Math.round(maxVolume * 0.25)"></span>
+                      <span x-text="Math.round(maxVolume * 0.5)"></span>
+                      <span x-text="Math.round(maxVolume * 0.75)"></span>
+                      <span x-text="maxVolume"></span>
+                    </div>
+                  </div>
+                  <div class="sm:col-span-2 space-y-1.5 pt-1">
+                    <span class="text-xs font-semibold text-slate-300 block"
+                      >Turnaround Speed</span
+                    >
+                    <div class="grid grid-cols-3 gap-2">
+                      <button
+                        type="button"
+                        @click="estimator.urgency = 'relaxed'"
+                        :aria-pressed="estimator.urgency === 'relaxed'"
+                        :class="estimator.urgency === 'relaxed' ? 'border-primary-500 bg-primary-600/40 text-white font-bold' : 'border-slate-700 bg-slate-800 text-slate-400 hover:text-white'"
+                        class="py-2.5 px-3 rounded-xl border text-xs text-center transition"
+                      >
+                        <div>Standard</div>
+                        <div class="text-[10px] text-slate-300 font-normal">
+                          5-7 Days (1.0x)
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        @click="estimator.urgency = 'express'"
+                        :aria-pressed="estimator.urgency === 'express'"
+                        :class="estimator.urgency === 'express' ? 'border-primary-500 bg-primary-600/40 text-white font-bold' : 'border-slate-700 bg-slate-800 text-slate-400 hover:text-white'"
+                        class="py-2.5 px-3 rounded-xl border text-xs text-center transition"
+                      >
+                        <div>Express</div>
+                        <div class="text-[10px] text-slate-300 font-normal">
+                          48-72h (1.25x)
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        @click="estimator.urgency = 'rush'"
+                        :aria-pressed="estimator.urgency === 'rush'"
+                        :class="estimator.urgency === 'rush' ? 'border-amber-500 bg-amber-500/20 text-amber-300 font-bold' : 'border-slate-700 bg-slate-800 text-slate-400 hover:text-white'"
+                        class="py-2.5 px-3 rounded-xl border text-xs text-center transition"
+                      >
+                        <div class="flex items-center justify-center gap-1">
+                          <i
+                            data-lucide="zap"
+                            class="w-3 h-3 text-amber-400"
+                          ></i>
+                          Rush
+                        </div>
+                        <div class="text-[10px] text-slate-300 font-normal">
+                          &lt; 24h (1.5x)
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-slate-800 space-y-4">
+                  <div
+                    class="text-[11px] text-slate-400 font-mono"
+                    x-text="priceBreakdown"
+                  ></div>
+                  <div
+                    class="flex flex-col sm:flex-row items-center justify-between gap-4"
+                  >
+                    <div>
+                      <span class="text-xs text-slate-400 block font-medium"
+                        >Estimated Total</span
+                      >
+                      <div
+                        class="text-3xl font-extrabold text-white flex items-baseline gap-1.5"
+                      >
+                        <span>₦</span
+                        ><span
+                          x-text="calculatedPrice"
+                          aria-live="polite"
+                        ></span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      @click="openQuoteBooking()"
+                      class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg transition flex items-center justify-center gap-2"
+                    >
+                      <span>Proceed with Quote</span>
+                      <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= HOW IT WORKS ================= -->
+      <section id="how-it-works" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <span
+              class="text-primary-600 font-bold text-xs uppercase tracking-wider"
+              >Workflow</span
+            >
+            <h2
+              class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2 tracking-tight"
+            >
+              How We Manage Your Task
+            </h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div
+              class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-start"
+            >
+              <div
+                class="w-12 h-12 rounded-2xl bg-primary-100 text-primary-700 flex items-center justify-center font-black text-lg mb-5"
+              >
+                01
+              </div>
+              <h3 class="font-bold text-base text-slate-900">Submit Project</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                Provide your rubric, guidelines, referencing style, and attach
+                your draft.
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-start"
+            >
+              <div
+                class="w-12 h-12 rounded-2xl bg-accent-100 text-accent-700 flex items-center justify-center font-black text-lg mb-5"
+              >
+                02
+              </div>
+              <h3 class="font-bold text-base text-slate-900">
+                Specialist Matching
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                Your order is assigned to a qualified subject matter specialist
+                or statistician.
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-start"
+            >
+              <div
+                class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-black text-lg mb-5"
+              >
+                03
+              </div>
+              <h3 class="font-bold text-base text-slate-900">
+                Review &amp; Integrity
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                Every document undergoes rigor checks for citation fidelity and
+                formatting correctness.
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-start"
+            >
+              <div
+                class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-lg mb-5"
+              >
+                04
+              </div>
+              <h3 class="font-bold text-base text-slate-900">
+                Delivery &amp; Revisions
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                Direct delivery through your dashboard, protected by 7 days of
+                complimentary edits.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ACADEMIC ETHICS ================= -->
+      <section id="integrity" class="py-16 bg-white border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            class="bg-gradient-to-r from-slate-900 to-indigo-950 rounded-3xl p-8 sm:p-10 text-white shadow-xl relative overflow-hidden"
+          >
+            <div
+              class="relative z-10 flex flex-col md:flex-row items-center gap-8"
+            >
+              <div
+                class="w-20 h-20 rounded-3xl bg-white/10 flex items-center justify-center flex-shrink-0 border border-white/20"
+              >
+                <i data-lucide="scale" class="w-10 h-10 text-accent-400"></i>
+              </div>
+              <div class="space-y-3 text-center md:text-left">
+                <div
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold"
+                >
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Ethical
+                  Learning Guarantee
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">
+                  Committed to Academic Integrity
+                </h2>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  StudentSolve strictly provides non-destructive developmental
+                  coaching, typesetting, proofreading, statistical guidance, and
+                  formatting assistance. We do not participate in exam
+                  impersonation, contract cheating, or academic dishonesty.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FAQ ================= -->
+      <section id="faq" class="py-20 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <span
+              class="text-primary-600 font-bold text-xs uppercase tracking-wider"
+              >Common Questions</span
+            >
+            <h2 class="text-3xl font-extrabold text-slate-900 mt-1">
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <div class="space-y-3" x-data="{ activeAccordion: 1 }">
+            <template x-for="item in faqs" :key="item.id">
+              <div
+                class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
+              >
+                <button
+                  type="button"
+                  @click="activeAccordion = activeAccordion === item.id ? null : item.id"
+                  :aria-expanded="activeAccordion === item.id"
+                  class="w-full px-6 py-4 text-left font-bold text-sm sm:text-base text-slate-800 flex justify-between items-center gap-4"
+                >
+                  <span x-text="item.q"></span>
+                  <span
+                    class="flex-shrink-0 transition-transform duration-200"
+                    :class="activeAccordion === item.id ? 'rotate-180 text-primary-600' : 'text-slate-400'"
+                  >
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                  </span>
+                </button>
+                <div
+                  x-show="activeAccordion === item.id"
+                  x-collapse
+                  class="px-6 pb-5 text-xs sm:text-sm text-slate-600 border-t border-slate-100 pt-3"
+                  x-text="item.a"
+                ></div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= BOTTOM CTA ================= -->
+      <section class="py-16 bg-primary-600 text-white relative overflow-hidden">
+        <div
+          class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10"
+        >
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            Ready to Submit Your Project with Confidence?
+          </h2>
+          <p
+            class="text-primary-100 text-base sm:text-lg max-w-2xl mx-auto mt-2 leading-relaxed"
+          >
+            Join thousands of Nigerian students receiving professional,
+            honor-code compliant academic support today.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row justify-center items-center gap-4 pt-6"
+          >
+            <button
+              type="button"
+              @click="openQuickBookingModal()"
+              class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white text-primary-700 hover:bg-slate-100 font-bold text-base shadow-xl transition-all transform hover:-translate-y-0.5"
+            >
+              Submit a Task Now
+            </button>
+            <a
+              href="#estimator"
+              class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-primary-700 hover:bg-primary-800 text-white font-semibold text-base border border-primary-500 transition text-center"
+            >
+              Calculate Instant Estimate
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer
+      class="bg-slate-900 text-slate-400 text-xs sm:text-sm pt-14 pb-8 border-t border-slate-800"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800"
+        >
+          <div class="col-span-2 space-y-3">
+            <div class="flex items-center space-x-2.5">
+              <div
+                class="w-8 h-8 rounded-xl bg-primary-600 text-white flex items-center justify-center"
+              >
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+              </div>
+              <span class="text-xl font-bold text-white tracking-tight"
+                >Student<span class="text-primary-400">Solve</span></span
+              >
+            </div>
+            <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
+              Verified student academic-support ecosystem providing thesis
+              formatting, statistics tutoring, proofreading, and career
+              documentation across Nigeria.
+            </p>
+            <div class="text-[11px] text-slate-500">
+              &copy; <span x-text="currentYear"></span> StudentSolve
+              Technologies. All rights reserved.
+            </div>
+          </div>
+          <div>
+            <h3
+              class="font-bold text-white text-xs uppercase tracking-wider mb-3"
+            >
+              Academic Services
+            </h3>
+            <ul class="space-y-2 text-xs">
+              <li>
+                <a href="#services" class="hover:text-white transition"
+                  >Thesis Support</a
+                >
+              </li>
+              <li>
+                <a href="#services" class="hover:text-white transition"
+                  >Proofreading &amp; Editing</a
+                >
+              </li>
+              <li>
+                <a href="#services" class="hover:text-white transition"
+                  >Data Analysis &amp; Charts</a
+                >
+              </li>
+              <li>
+                <a href="#services" class="hover:text-white transition"
+                  >Typesetting &amp; Formatting</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="font-bold text-white text-xs uppercase tracking-wider mb-3"
+            >
+              Navigation
+            </h3>
+            <ul class="space-y-2 text-xs">
+              <li>
+                <button
+                  type="button"
+                  @click="openLoginModal()"
+                  class="hover:text-white transition"
+                >
+                  Student Portal
+                </button>
+              </li>
+              <li>
+                <a href="#services" class="hover:text-white transition"
+                  >Services Catalog</a
+                >
+              </li>
+              <li>
+                <a href="#estimator" class="hover:text-white transition"
+                  >Pricing Calculator</a
+                >
+              </li>
+              <li>
+                <a href="#integrity" class="hover:text-white transition"
+                  >Honor Code</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================= MODAL: LOGIN ================= -->
+    <div
+      x-show="loginModal"
+      x-cloak
+      class="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loginTitle"
+    >
+      <div
+        @click="loginModal = false"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+      ></div>
+      <div
+        @click.self="loginModal = false"
+        class="relative flex min-h-full items-center justify-center p-4"
+      >
+        <div
+          class="relative w-full max-w-md transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl border border-slate-100 p-6 sm:p-8"
+        >
+          <button
+            type="button"
+            @click="loginModal = false"
+            aria-label="Close"
+            class="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div class="text-center mb-6">
+            <div
+              class="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center mx-auto mb-3"
+            >
+              <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <h3 id="loginTitle" class="text-xl font-bold text-slate-900">
+              Student Portal Sign In
+            </h3>
+            <p class="text-xs text-slate-500 mt-1">
+              Access your projects, assigned specialists, and deliverables.
+            </p>
+          </div>
+          <form
+            @submit.prevent="handleLoginSubmit()"
+            class="space-y-4"
+            novalidate
+          >
+            <div>
+              <label
+                for="loginEmail"
+                class="block text-xs font-semibold text-slate-700 mb-1"
+                >Account Email</label
+              >
+              <div class="relative">
+                <i
+                  data-lucide="mail"
+                  class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  id="loginEmail"
+                  type="email"
+                  required
+                  autocomplete="email"
+                  x-model.trim="loginForm.email"
+                  placeholder="student@university.edu"
+                  class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                for="loginPassword"
+                class="block text-xs font-semibold text-slate-700 mb-1"
+                >Password</label
+              >
+              <div class="relative">
+                <i
+                  data-lucide="key-round"
+                  class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  id="loginPassword"
+                  :type="showPassword ? 'text' : 'password'"
+                  required
+                  autocomplete="current-password"
+                  x-model="loginForm.password"
+                  placeholder="Account password"
+                  class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  @click="showPassword = !showPassword"
+                  aria-label="Toggle password visibility"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  <span x-show="!showPassword"
+                    ><i data-lucide="eye" class="w-4 h-4"></i
+                  ></span>
+                  <span x-show="showPassword" x-cloak
+                    ><i data-lucide="eye-off" class="w-4 h-4"></i
+                  ></span>
+                </button>
+              </div>
+            </div>
+            <p
+              x-show="loginError"
+              x-cloak
+              class="text-xs text-rose-600 font-medium"
+              x-text="loginError"
+            ></p>
+            <button
+              type="submit"
+              :disabled="loginLoading"
+              class="w-full py-3 rounded-xl bg-primary-600 hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2"
+            >
+              <span x-show="!loginLoading">Sign In to Dashboard</span>
+              <span
+                x-show="loginLoading"
+                x-cloak
+                class="flex items-center gap-2"
+              >
+                <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+                Authenticating...
+              </span>
+            </button>
+          </form>
+          <div
+            class="mt-6 pt-4 border-t border-slate-100 text-center text-xs text-slate-600"
+          >
+            New to StudentSolve?
+            <button
+              type="button"
+              @click="loginModal = false; openSignupModal()"
+              class="font-bold text-primary-600 hover:underline"
+            >
+              Register Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: SIGNUP ================= -->
+    <div
+      x-show="signupModal"
+      x-cloak
+      class="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="signupTitle"
+    >
+      <div
+        @click="signupModal = false"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+      ></div>
+      <div
+        @click.self="signupModal = false"
+        class="relative flex min-h-full items-center justify-center p-4"
+      >
+        <div
+          class="relative w-full max-w-md transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl border border-slate-100 p-6 sm:p-8"
+        >
+          <button
+            type="button"
+            @click="signupModal = false"
+            aria-label="Close"
+            class="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div x-show="signupStep === 1">
+            <div class="text-center mb-6">
+              <h3 id="signupTitle" class="text-xl font-bold text-slate-900">
+                Create Student Account
+              </h3>
+              <p class="text-xs text-slate-500 mt-1">
+                Instant registration for project submissions.
+              </p>
+            </div>
+            <form
+              @submit.prevent="handleSignupSubmit()"
+              class="space-y-3.5"
+              novalidate
+            >
+              <div>
+                <label
+                  for="suName"
+                  class="block text-xs font-semibold text-slate-700 mb-1"
+                  >Full Name</label
+                >
+                <input
+                  id="suName"
+                  type="text"
+                  required
+                  autocomplete="name"
+                  x-model.trim="signupForm.fullName"
+                  placeholder="e.g., Student Solve"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label
+                  for="suEmail"
+                  class="block text-xs font-semibold text-slate-700 mb-1"
+                  >Email Address</label
+                >
+                <input
+                  id="suEmail"
+                  type="email"
+                  required
+                  autocomplete="email"
+                  x-model.trim="signupForm.email"
+                  placeholder="student@example.com"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label
+                  for="suInstitution"
+                  class="block text-xs font-semibold text-slate-700 mb-1"
+                  >Institution</label
+                >
+                <input
+                  id="suInstitution"
+                  type="text"
+                  x-model.trim="signupForm.institution"
+                  placeholder="e.g., AFIT Kaduna, UNILAG, ABU Zaria"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label
+                  for="suPassword"
+                  class="block text-xs font-semibold text-slate-700 mb-1"
+                  >Password</label
+                >
+                <input
+                  id="suPassword"
+                  type="password"
+                  required
+                  minlength="6"
+                  autocomplete="new-password"
+                  x-model="signupForm.password"
+                  placeholder="Min. 6 characters"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                />
+              </div>
+              <!-- Anti-Bot Verification -->
+              <div
+                class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3.5 space-y-2"
+              >
+                <div class="flex items-center justify-between">
+                  <label
+                    for="captchaAnswer"
+                    class="text-xs font-bold text-slate-800 flex items-center gap-1.5"
+                  >
+                    <i data-lucide="bot" class="w-4 h-4 text-primary-600"></i>
+                    Bot Verification
+                  </label>
+                  <button
+                    type="button"
+                    @click="generateCaptcha()"
+                    class="text-[11px] text-primary-600 font-semibold"
+                  >
+                    Refresh
+                  </button>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div
+                    class="bg-white px-3 py-2 rounded-xl border border-indigo-200 font-mono font-bold text-base text-slate-800 tracking-wider"
+                  >
+                    <span x-text="captchaNum1"></span> +
+                    <span x-text="captchaNum2"></span> =
+                  </div>
+                  <input
+                    id="captchaAnswer"
+                    type="number"
+                    inputmode="numeric"
+                    required
+                    x-model="captchaInput"
+                    placeholder="Sum"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none font-semibold"
+                  />
+                </div>
+                <p
+                  x-show="captchaError"
+                  x-cloak
+                  class="text-xs text-rose-600 font-medium"
+                  x-text="captchaError"
+                ></p>
+              </div>
+              <p
+                x-show="signupError"
+                x-cloak
+                class="text-xs text-rose-600 font-medium"
+                x-text="signupError"
+              ></p>
+              <button
+                type="submit"
+                :disabled="signupLoading"
+                class="w-full py-3 rounded-xl bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2"
+              >
+                <span x-show="!signupLoading"
+                  >Create &amp; Activate Account</span
+                >
+                <span x-show="signupLoading" x-cloak
+                  ><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+                  Activating...</span
+                >
+              </button>
+            </form>
+          </div>
+          <div x-show="signupStep === 2" x-cloak class="text-center py-4">
+            <div
+              class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-4"
+            >
+              <i data-lucide="badge-check" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900">Workspace Ready!</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 max-w-xs mx-auto">
+              Welcome, <strong x-text="firstName"></strong>. Your verified
+              student profile is active.
+            </p>
+            <div class="mt-6 space-y-3">
+              <button
+                type="button"
+                @click="finishRegistrationAndGoToServices()"
+                class="w-full py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm shadow-lg transition"
+              >
+                Explore Services Catalog
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: STUDENT DASHBOARD ================= -->
+    <div
+      x-show="portalModal"
+      x-cloak
+      class="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="portalTitle"
+    >
+      <div
+        @click="portalModal = false"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+      ></div>
+      <div
+        @click.self="portalModal = false"
+        class="relative flex min-h-full items-center justify-center p-3 sm:p-6"
+      >
+        <div
+          class="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92dvh]"
+        >
+          <div
+            class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white p-6 flex items-center justify-between gap-3 flex-shrink-0"
+          >
+            <div class="flex items-center space-x-3.5 min-w-0">
+              <div
+                class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-primary-600 to-accent-500 flex items-center justify-center font-bold text-base shadow-md flex-shrink-0"
+              >
+                <span x-text="currentUser.initials"></span>
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <h3 id="portalTitle" class="font-bold text-lg text-white">
+                    Student Hub: <span x-text="firstName"></span>
+                  </h3>
+                  <span
+                    class="bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full"
+                  >
+                    Active Session
+                  </span>
+                </div>
+                <p
+                  class="text-xs text-slate-400 truncate"
+                  x-text="accountLine"
+                ></p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 flex-shrink-0">
+              <button
+                type="button"
+                @click="openQuickBookingModal()"
+                class="hidden sm:inline-flex items-center px-3.5 py-2 rounded-xl bg-primary-600 hover:bg-primary-500 text-xs font-bold text-white transition"
+              >
+                <i data-lucide="plus" class="w-3.5 h-3.5 mr-1.5"></i> New
+                Request
+              </button>
+              <button
+                type="button"
+                @click="portalModal = false"
+                aria-label="Close dashboard"
+                class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition"
+              >
+                <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+          <div
+            class="flex border-b border-slate-200 px-6 bg-slate-50 text-xs font-bold text-slate-600 space-x-6 flex-shrink-0 overflow-x-auto"
+          >
+            <button
+              type="button"
+              @click="portalTab = 'orders'"
+              :class="portalTab === 'orders' ? 'text-primary-600 border-b-2 border-primary-600' : 'hover:text-slate-900'"
+              class="py-3.5 transition flex items-center gap-1.5 whitespace-nowrap"
+            >
+              <span>Active Projects</span>
+              <span
+                class="px-1.5 py-0.5 rounded-full text-[10px] bg-slate-200 text-slate-700"
+                x-text="userProjects.length"
+              ></span>
+            </button>
+            <button
+              type="button"
+              @click="portalTab = 'messages'"
+              :class="portalTab === 'messages' ? 'text-primary-600 border-b-2 border-primary-600' : 'hover:text-slate-900'"
+              class="py-3.5 transition whitespace-nowrap"
+            >
+              StudentSolve Chat
+            </button>
+            <button
+              type="button"
+              @click="portalTab = 'downloads'"
+              :class="portalTab === 'downloads' ? 'text-primary-600 border-b-2 border-primary-600' : 'hover:text-slate-900'"
+              class="py-3.5 transition whitespace-nowrap"
+            >
+              Completed Files
+            </button>
+            <button
+              type="button"
+              @click="portalTab = 'track'"
+              :class="portalTab === 'track' ? 'text-primary-600 border-b-2 border-primary-600' : 'hover:text-slate-900'"
+              class="py-3.5 transition whitespace-nowrap"
+            >
+              Track Files
+            </button>
+          </div>
+          <div class="p-6 overflow-y-auto space-y-4 flex-1">
+            <!-- Tab: Orders -->
+            <div x-show="portalTab === 'orders'" class="space-y-4">
+              <template x-if="userProjects.length === 0">
+                <div
+                  class="text-center py-12 px-4 rounded-2xl border-2 border-dashed border-slate-200"
+                >
+                  <i
+                    data-lucide="folder-plus"
+                    class="w-10 h-10 text-slate-400 mx-auto mb-2"
+                  ></i>
+                  <h4 class="font-bold text-slate-900 text-base">
+                    No active submissions
+                  </h4>
+                  <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">
+                    Submit your academic tasks or brief to receive assigned
+                    researcher verification.
+                  </p>
+                  <button
+                    type="button"
+                    @click="openQuickBookingModal()"
+                    class="mt-4 inline-flex items-center px-5 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold transition"
+                  >
+                    <i data-lucide="plus" class="w-3.5 h-3.5 mr-1.5"></i> Submit
+                    New Project
+                  </button>
+                </div>
+              </template>
+              <template x-for="project in userProjects" :key="project.id">
+                <div
+                  class="bg-white border border-slate-200 rounded-2xl p-5 hover:border-slate-300 transition shadow-sm space-y-3"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100"
+                  >
+                    <div>
+                      <span
+                        class="text-[11px] font-mono text-slate-500 font-semibold uppercase"
+                        x-text="project.id + ' • ' + project.subject"
+                      ></span>
+                      <h4
+                        class="font-bold text-slate-900 text-sm"
+                        x-text="project.service"
+                      ></h4>
+                    </div>
+                    <span
+                      class="self-start sm:self-auto px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800"
+                      x-text="project.status"
+                    ></span>
+                  </div>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div>
+                      <span class="text-slate-500 block">Assigned Lead:</span>
+                      <strong
+                        class="text-slate-800"
+                        x-text="project.specialist"
+                      ></strong>
+                    </div>
+                    <div>
+                      <span class="text-slate-500 block">Target Deadline:</span>
+                      <strong
+                        class="text-slate-800"
+                        x-text="formatDate(project.deadline)"
+                      ></strong>
+                    </div>
+                    <div>
+                      <span class="text-slate-500 block">Citation Format:</span>
+                      <strong
+                        class="text-slate-800"
+                        x-text="project.referencing"
+                      ></strong>
+                    </div>
+                    <div>
+                      <span class="text-slate-500 block">Settlement:</span>
+                      <strong
+                        class="text-emerald-700"
+                        x-text="project.paymentRef ? ('₦' + Number(project.amount).toLocaleString('en-NG') + ' Verified') : 'Quote Direct'"
+                      ></strong>
+                    </div>
+                  </div>
+                  <div
+                    class="pt-3 border-t border-slate-100 flex items-center justify-between"
+                  >
+                    <button
+                      type="button"
+                      @click="activeChatProjectId = project.id; portalTab = 'messages'"
+                      class="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1"
+                    >
+                      <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                      Open Direct Chat
+                    </button>
+                    <template x-if="project.paymentRef">
+                      <button
+                        type="button"
+                        @click="printReceipt(project)"
+                        class="text-xs font-bold text-slate-700 flex items-center gap-1"
+                      >
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+                        Receipt
+                      </button>
+                    </template>
+                    <template x-if="project.whatsAppLink">
+                      <a
+                        :href="project.whatsAppLink"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
+                      >
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        Launch WhatsApp Thread
+                      </a>
+                    </template>
+                  </div>
+                </div>
+              </template>
+            </div>
+            <!-- Tab: Messages -->
+            <div x-show="portalTab === 'messages'" class="space-y-4">
+              <template x-if="!activeChatProject">
+                <div
+                  class="text-center py-12 px-4 rounded-2xl border-2 border-dashed border-slate-200"
+                >
+                  <i
+                    data-lucide="message-square-off"
+                    class="w-10 h-10 text-slate-400 mx-auto mb-2"
+                  ></i>
+                  <h4 class="font-bold text-slate-800 text-sm">
+                    No Active Expert Chats
+                  </h4>
+                  <p class="text-xs text-slate-500 mt-1">
+                    Submit a project to activate direct communication with
+                    StudentSolve.
+                  </p>
+                </div>
+              </template>
+              <template x-if="activeChatProject">
+                <div
+                  class="bg-slate-50 rounded-2xl p-4 border border-slate-200 flex flex-col h-[340px]"
+                >
+                  <div
+                    class="flex items-center justify-between pb-3 border-b border-slate-200"
+                  >
+                    <div class="flex items-center space-x-2.5">
+                      <div
+                        class="w-8 h-8 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold text-xs"
+                      >
+                        SS
+                      </div>
+                      <div>
+                        <span
+                          class="text-xs font-bold text-slate-900 block"
+                          x-text="activeChatProject.specialist"
+                        ></span>
+                        <span
+                          class="text-[10px] text-emerald-600 flex items-center gap-1"
+                        >
+                          <span
+                            class="w-1.5 h-1.5 rounded-full bg-emerald-500"
+                          ></span>
+                          Online
+                        </span>
+                      </div>
+                    </div>
+                    <span
+                      class="text-[11px] text-slate-500 font-mono"
+                      x-text="activeChatProject.id"
+                    ></span>
+                  </div>
+                  <div
+                    class="flex-1 overflow-y-auto py-3 space-y-3 text-xs"
+                    x-ref="chatScroll"
+                  >
+                    <template
+                      x-for="(msg, i) in activeChatProject.messages"
+                      :key="i"
+                    >
+                      <div
+                        :class="msg.from === 'me' ? 'justify-end' : ''"
+                        class="flex items-start gap-2"
+                      >
+                        <div
+                          :class="msg.from === 'me' ? 'bg-primary-600 text-white rounded-tr-none' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none'"
+                          class="p-3 rounded-2xl max-w-[85%]"
+                          x-text="msg.text"
+                        ></div>
+                      </div>
+                    </template>
+                  </div>
+                  <form
+                    @submit.prevent="sendChatMessage()"
+                    class="pt-2 border-t border-slate-200 flex gap-2"
+                  >
+                    <input
+                      type="text"
+                      x-model="chatDraft"
+                      placeholder="Send query to StudentSolve..."
+                      class="flex-1 bg-white px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    />
+                    <button
+                      type="submit"
+                      class="px-4 py-2 bg-primary-600 text-white text-xs font-bold rounded-xl hover:bg-primary-700"
+                    >
+                      Send
+                    </button>
+                  </form>
+                </div>
+              </template>
+            </div>
+            <!-- Tab: Track Files -->
+            <div x-show="portalTab === 'track'" class="space-y-4">
+              <template x-if="userProjects.length === 0">
+                <p class="text-xs text-slate-500 text-center py-8">
+                  No files to track yet.
+                </p>
+              </template>
+              <template x-for="project in userProjects" :key="project.id">
+                <div class="border border-slate-200 rounded-2xl p-4 space-y-3">
+                  <div class="flex justify-between text-xs">
+                    <strong
+                      x-text="project.id + ' • ' + project.service"
+                    ></strong>
+                    <span
+                      class="text-slate-500"
+                      x-text="stages[project.stage ?? 0]"
+                    ></span>
+                  </div>
+                  <ol class="flex items-start justify-between text-[10px]">
+                    <template x-for="(s, i) in stages" :key="s">
+                      <li class="flex-1 text-center space-y-1">
+                        <div
+                          :class="i <= (project.stage ?? 0) ? 'bg-primary-600 text-white' : 'bg-slate-200 text-slate-500'"
+                          class="w-6 h-6 mx-auto rounded-full flex items-center justify-center font-bold"
+                          x-text="i + 1"
+                        ></div>
+                        <span
+                          :class="i <= (project.stage ?? 0) ? 'text-slate-900 font-semibold' : 'text-slate-400'"
+                          x-text="s"
+                        ></span>
+                      </li>
+                    </template>
+                  </ol>
+                  <p
+                    x-show="project.files && project.files.length"
+                    x-cloak
+                    class="text-[11px] text-slate-500"
+                  >
+                    <span class="font-semibold text-slate-700">Files:</span>
+                    <span x-text="(project.files || []).join(', ')"></span>
+                  </p>
+                  <div
+                    class="flex items-center justify-between text-xs font-bold"
+                  >
+                    <a
+                      :href="trackLink(project)"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-emerald-600"
+                      >Ask for an update on WhatsApp</a
+                    >
+                    <a
+                      :href="project.whatsAppLink"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-primary-600"
+                      >Send files on WhatsApp</a
+                    >
+                  </div>
+                </div>
+              </template>
+            </div>
+            <!-- Tab: Downloads -->
+            <div x-show="portalTab === 'downloads'" class="space-y-3">
+              <div
+                class="p-6 text-center text-xs text-slate-500 bg-slate-50 rounded-2xl border border-slate-200"
+              >
+                Deliverables, formatted files, and originality documentation are
+                dispatched directly through your verified WhatsApp channel and
+                synced here upon milestone signoff.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: PROJECT BOOKING ================= -->
+    <div
+      x-show="bookingModal"
+      x-cloak
+      class="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="bookingTitle"
+    >
+      <div
+        @click="bookingModal = false"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+      ></div>
+      <div
+        @click.self="bookingModal = false"
+        class="relative flex min-h-full items-center justify-center p-4"
+      >
+        <div
+          class="relative w-full max-w-lg transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl border border-slate-100 p-6 sm:p-8"
+        >
+          <button
+            type="button"
+            @click="bookingModal = false"
+            aria-label="Close"
+            class="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div class="mb-5">
+            <div
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-50 text-primary-700 mb-2"
+            >
+              <i data-lucide="send" class="w-3.5 h-3.5"></i> Service Submission
+            </div>
+            <h3
+              id="bookingTitle"
+              class="text-xl font-bold text-slate-900"
+              x-text="activeServiceTitle"
+            ></h3>
+            <p class="text-xs text-slate-500 mt-1">
+              Submit your academic scope for immediate processing.
+            </p>
+          </div>
+          <form
+            @submit.prevent="submitTaskRequest()"
+            class="space-y-3.5"
+            novalidate
+          >
+            <div x-show="isIdService" x-cloak>
+              <label
+                for="idOption"
+                class="block text-xs font-semibold text-slate-700 mb-1"
+                >Select NIN/BVN Service</label
+              >
+              <select
+                id="idOption"
+                x-model="selectedOption"
+                class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+              >
+                <template x-for="o in serviceOptions" :key="o.id">
+                  <option
+                    :value="o.id"
+                    x-text="o.label + ' — ₦' + o.price.toLocaleString('en-NG')"
+                  ></option>
+                </template>
+              </select>
+            </div>
+            <div x-show="!isIdService">
+              <label
+                for="taskSubject"
+                class="block text-xs font-semibold text-slate-700 mb-1"
+                >Discipline / Academic Field</label
+              >
+              <input
+                id="taskSubject"
+                type="text"
+                required
+                x-model.trim="taskForm.subject"
+                placeholder="e.g., Mechanical Engineering, Accounting, Public Health"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+              />
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label
+                  for="taskDeadline"
+                  class="block text-xs font-semibold text-slate-700 mb-1"
+                  >Target Submission Date</label
+                >
+                <input
+                  id="taskDeadline"
+                  type="date"
+                  required
+                  x-model="taskForm.deadline"
+                  :min="todayISO"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                />
+              </div>
+              <div x-show="!isIdService">
+                <label
+                  for="taskRef"
+                  class="block text-xs font-semibold text-slate-700 mb-1"
+                  >Referencing Standard</label
+                >
+                <select
+                  id="taskRef"
+                  x-model="taskForm.referencing"
+                  class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+                >
+                  <option>APA 7th Edition</option>
+                  <option>IEEE Format</option>
+                  <option>Harvard Style</option>
+                  <option>MLA 9th Edition</option>
+                  <option>Chicago Style</option>
+                  <option>Not Applicable</option>
+                </select>
+              </div>
+            </div>
+            <!-- Dynamic Volume Selector -->
+            <template x-if="currentRate > 0">
+              <div
+                class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2"
+              >
+                <div
+                  class="flex justify-between items-center text-xs font-semibold"
+                >
+                  <label for="bookingVolume" class="text-slate-700"
+                    >Volume / Scope (<span x-text="unitTitle"></span>):</label
+                  >
+                  <span
+                    class="text-primary-600 font-bold text-sm"
+                    x-text="taskForm.volume + ' ' + unitTitle"
+                  ></span>
+                </div>
+                <input
+                  id="bookingVolume"
+                  type="range"
+                  min="1"
+                  max="100"
+                  x-model.number="taskForm.volume"
+                  class="w-full accent-primary-500 bg-slate-200 h-2 rounded-lg cursor-pointer"
+                />
+                <div
+                  class="flex justify-between text-[10px] text-slate-400 font-mono"
+                >
+                  <span>1</span>
+                  <span>25</span>
+                  <span>50</span>
+                  <span>75</span>
+                  <span>100</span>
+                </div>
+              </div>
+            </template>
+            <div>
+              <label
+                for="taskInstructions"
+                class="block text-xs font-semibold text-slate-700 mb-1"
+                ><span
+                  x-text="isIdService ? 'NIN / BVN Number &amp; Details' : 'Specific Instructions / Rubric Scope'"
+                ></span
+              ></label>
+              <textarea
+                id="taskInstructions"
+                rows="3"
+                required
+                x-model.trim="taskForm.instructions"
+                :placeholder="isIdService ? 'Enter the NIN/BVN number and any details we need (e.g. name on record)...' : 'Detail your requirements, supervisor comments, methodology, or specific software needs...'"
+                class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
+              ></textarea>
+            </div>
+            <!-- Document Upload -->
+            <div class="space-y-1.5">
+              <span class="block text-xs font-semibold text-slate-700"
+                >Document Transmission</span
+              >
+              <label
+                for="taskFiles"
+                class="flex flex-col items-center justify-center gap-1 text-center cursor-pointer rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/60 hover:bg-indigo-50 px-4 py-5 transition"
+              >
+                <i
+                  data-lucide="upload-cloud"
+                  class="w-6 h-6 text-primary-600"
+                ></i>
+                <span class="text-xs font-bold text-slate-800"
+                  >Tap to upload your documents</span
+                >
+                <span class="text-[11px] text-slate-500"
+                  >PDF, Word, Excel, PowerPoint, images, SAV, ZIP &bull; up to
+                  10 files, 25 MB each</span
+                >
+                <input
+                  id="taskFiles"
+                  type="file"
+                  multiple
+                  class="sr-only"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.sav,.zip,.jpg,.jpeg,.png,image/*"
+                  @change="handleFiles($event)"
+                />
+              </label>
+              <ul x-show="taskFiles.length" x-cloak class="space-y-1.5">
+                <template x-for="(f, i) in taskFiles" :key="f.name + i">
+                  <li
+                    class="flex items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs"
+                  >
+                    <span
+                      class="truncate font-medium text-slate-700"
+                      x-text="f.name"
+                    ></span>
+                    <span class="flex items-center gap-2 flex-shrink-0">
+                      <span class="text-slate-400" x-text="f.sizeLabel"></span>
+                      <button
+                        type="button"
+                        @click="removeFile(i)"
+                        aria-label="Remove file"
+                        class="text-rose-500 hover:text-rose-700 font-bold text-sm leading-none"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  </li>
+                </template>
+              </ul>
+              <p class="text-[11px] text-slate-500 leading-relaxed">
+                Files uploaded here are saved directly to your assignment record
+                on our server and referenced for your consultation.
+              </p>
+            </div>
+            <p
+              x-show="taskError"
+              x-cloak
+              class="text-xs text-rose-600 font-medium"
+              x-text="taskError"
+            ></p>
+            <div
+              x-show="totalDue > 0"
+              class="bg-primary-50 border border-primary-200 rounded-2xl p-4 flex items-center justify-between"
+            >
+              <div>
+                <span
+                  class="text-[10px] uppercase font-semibold text-primary-700 block"
+                  >Total Quotation</span
+                >
+                <span class="text-xl font-extrabold text-slate-900"
+                  >₦<span x-text="totalDue.toLocaleString('en-NG')"></span
+                ></span>
+              </div>
+              <span class="text-[11px] text-slate-500 max-w-[50%] text-right"
+                >Secures immediate lead assignment &amp; schedule lock.</span
+              >
+            </div>
+            <div class="pt-2">
+              <button
+                type="submit"
+                :disabled="paying"
+                class="w-full py-3 rounded-xl bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2"
+              >
+                <template x-if="paying">
+                  <span class="flex items-center gap-2"
+                    ><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+                    Processing Submission...</span
+                  >
+                </template>
+                <template x-if="!paying && totalDue > 0">
+                  <span class="flex items-center gap-2"
+                    ><i data-lucide="lock" class="w-4 h-4"></i> Complete ₦<span
+                      x-text="totalDue.toLocaleString('en-NG')"
+                    ></span>
+                    via Paystack</span
+                  >
+                </template>
+                <template x-if="!paying && totalDue === 0">
+                  <span class="flex items-center gap-2"
+                    ><i data-lucide="message-circle" class="w-4 h-4"></i> Submit
+                    Consultation Brief</span
+                  >
+                </template>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: POST-ACTION WHATSAPP REDIRECT FALLBACK ================= -->
+    <div
+      x-show="redirectModal"
+      x-cloak
+      class="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm"></div>
+      <div class="relative flex min-h-full items-center justify-center p-4">
+        <div
+          class="relative w-full max-w-md rounded-3xl bg-white text-center shadow-2xl p-6 sm:p-8 space-y-4"
+        >
+          <div
+            class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto"
+          >
+            <i data-lucide="check" class="w-8 h-8"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">
+            Task Logged Successfully!
+          </h3>
+          <p class="text-xs text-slate-600">
+            Your brief has been saved in the database<span
+              x-show="sharedFiles.length"
+            >
+              with <strong x-text="sharedFiles.length"></strong> attached
+              file(s)</span
+            >. Tap below to open your project thread:
+          </p>
+          <div class="pt-2 space-y-2">
+            <a
+              :href="activeWhatsAppUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              @click="redirectModal = false"
+              class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md flex items-center justify-center gap-2"
+            >
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Connect on WhatsApp</span>
+            </a>
+            <button
+              type="button"
+              x-show="lastProject && lastProject.paymentRef"
+              @click="printReceipt(lastProject)"
+              class="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-sm"
+            >
+              Print Payment Receipt
+            </button>
+            <button
+              type="button"
+              @click="redirectModal = false; openPortal('orders')"
+              class="w-full py-2.5 text-xs text-slate-500 font-semibold hover:text-slate-800"
+            >
+              View Project on Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TOAST NOTIFICATION ================= -->
+    <div
+      x-show="toast.show"
+      x-cloak
+      role="status"
+      aria-live="polite"
+      class="fixed bottom-5 right-5 z-[60] max-w-sm w-[calc(100%-2.5rem)] sm:w-full bg-slate-900 text-white rounded-2xl p-4 shadow-2xl border border-slate-800 flex items-center space-x-3"
+    >
+      <div
+        :class="toast.type === 'success' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'"
+        class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+      >
+        <span x-show="toast.type === 'success'"
+          ><i data-lucide="check-circle" class="w-5 h-5"></i
+        ></span>
+        <span x-show="toast.type !== 'success'"
+          ><i data-lucide="alert-circle" class="w-5 h-5"></i
+        ></span>
+      </div>
+      <div class="flex-1 text-xs min-w-0">
+        <p class="font-bold text-slate-100" x-text="toast.title"></p>
+        <p class="text-slate-400 mt-0.5" x-text="toast.message"></p>
+      </div>
+      <button
+        type="button"
+        @click="toast.show = false"
+        aria-label="Dismiss"
+        class="text-slate-400 hover:text-white"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- ================= JAVASCRIPT STATE ENGINE ================= -->
+    <script>
+      const WHATSAPP_NUMBER = "2347035131909";
+      const PAYSTACK_PUBLIC_KEY="pk_test_30a9c25416bcdec9a9bc4af9567d376eb3fb4060";
+      const MAX_FILES = 10,
+        MAX_FILE_MB = 50;
+
+      function studentSolveApp() {
+        return {
+          userLoggedIn: false,
+          mobileMenuOpen: false,
+          loginModal: false,
+          signupModal: false,
+          portalModal: false,
+          bookingModal: false,
+          redirectModal: false,
+          activeWhatsAppUrl: "#",
+          portalTab: "orders",
+          showPassword: false,
+          currentYear: new Date().getFullYear(),
+          currentUser: { name: "", email: "", initials: "ST", institution: "" },
+          userProjects: [],
+          activeChatProjectId: null,
+          chatDraft: "",
+          loginLoading: false,
+          loginError: "",
+          loginForm: { email: "", password: "", remember: true },
+          signupStep: 1,
+          signupLoading: false,
+          signupError: "",
+          captchaNum1: 1,
+          captchaNum2: 1,
+          captchaInput: "",
+          captchaError: "",
+          signupForm: {
+            fullName: "",
+            email: "",
+            institution: "",
+            password: "",
+          },
+          taskError: "",
+          searchQuery: "",
+          selectedCategory: "all",
+          paying: false,
+          activeServiceTitle: "Academic Support",
+          unitRate: 0,
+          unitTitle: "Units",
+          fixedAmount: 0,
+          serviceOptions: [],
+          selectedOption: "",
+          lastProject: null,
+          taskFiles: [],
+          sharedFiles: [],
+          _formFilesRef: [],
+          _shareFilesRef: [],
+          stages: ["Received", "Paid", "In progress", "Review", "Delivered"],
+          taskForm: {
+            subject: "",
+            deadline: "",
+            referencing: "APA 7th Edition",
+            instructions: "",
+            volume: 1,
+          },
+          toast: { show: false, type: "success", title: "", message: "" },
+          _toastTimer: null,
+          categories: [
+            { id: "all", name: "All Services" },
+            { id: "research", name: "Research & Projects" },
+            { id: "editing", name: "Editing & Proofing" },
+            { id: "data", name: "Data & Presentations" },
+            { id: "career", name: "CV & Career" },
+            { id: "print", name: "Formatting & Print" },
+            { id: "exams", name: "Exam Scratch Cards" },
+          ],
+          faqs: [
+            {
+              id: 1,
+              q: "Is using StudentSolve compliant with university regulations?",
+              a: "StudentSolve strictly provides developmental proofreading, formatting, research methodology tutoring, and presentation styling. You remain the sole author of your intellectual work, ensuring complete adherence to institutional codes.",
+            },
+            {
+              id: 2,
+              q: "Are there minimum order fees on single-page tasks?",
+              a: "No. Our calculator charges strictly per page or slide. Undergraduate proofreading is ₦500 per page and typesetting is ₦200 per page without baseline penalties.",
+            },
+            {
+              id: 3,
+              q: "How do I submit my document for review?",
+              a: "Complete the brief in our order portal to generate your project record, then transmit your file directly to our assigned team lead via the pre-linked WhatsApp desk.",
+            },
+          ],
+          services: [
+            {
+              id: 1,
+              title: "Assignment support",
+              desc: "Structured guidance, conceptual breakdown, and referencing outlines matching Nigerian tertiary standards.",
+              category: "research",
+              icon: "book-open-check",
+              badge: "Popular",
+              color: "bg-indigo-600",
+              startingPrice: "₦1,500 / task",
+              rate: 1500,
+              unit: "Task",
+              highlights: [
+                "Step-by-step guidance",
+                "Rubric alignment",
+                "Ethical tutoring",
+              ],
+            },
+            {
+              id: 2,
+              title: "Final-year project support",
+              desc: "Chapter-by-chapter guidance: topic formulation, literature review, methodology, and defense rehearsals.",
+              category: "research",
+              icon: "award",
+              badge: "Milestone",
+              color: "bg-primary-600",
+              startingPrice: "₦12,000 / chapter",
+              rate: 12000,
+              unit: "Chapter",
+              highlights: [
+                "₦12,000 per chapter",
+                "Supervisor corrections",
+                "Defense preparation",
+              ],
+            },
+            {
+              id: 3,
+              title: "Research support",
+              desc: "Scholarly curation from Scopus, JSTOR, and PubMed, plus structured synthesis matrices.",
+              category: "research",
+              icon: "microscope",
+              badge: "Scholarly",
+              color: "bg-blue-600",
+              startingPrice: "₦3,000 / matrix",
+              rate: 3000,
+              unit: "Matrix",
+              highlights: [
+                "Peer-reviewed papers",
+                "Scopus / JSTOR",
+                "Synthesized matrices",
+              ],
+            },
+            {
+              id: 4,
+              title: "Thesis/dissertation support",
+              desc: "Mentorship for PGD, MSc, and PhD scholars: structural alignment, methodology auditing, and defense coaching.",
+              category: "research",
+              icon: "graduation-cap",
+              badge: "Postgrad",
+              color: "bg-violet-600",
+              startingPrice: "₦1,200 / page",
+              rate: 1200,
+              unit: "Page",
+              highlights: [
+                "Doctoral specialists",
+                "Ethical guidance",
+                "Defense coaching",
+              ],
+            },
+            {
+              id: 5,
+              title: "Typesetting and document formatting",
+              desc: "Rigorous alignment with university guidelines, margin structures, automated Table of Contents, and LaTeX/Word styling.",
+              category: "print",
+              icon: "layout",
+              badge: "Precision",
+              color: "bg-slate-700",
+              startingPrice: "₦200 / page",
+              rate: 200,
+              unit: "Page",
+              highlights: [
+                "Automated Tables & TOC",
+                "University guidelines",
+                "LaTeX & MS Word",
+              ],
+            },
+            {
+              id: 6,
+              title: "Proofreading and editing",
+              desc: "Grammar review, academic syntax enhancement, tone standardization, and structural clarity.",
+              category: "editing",
+              icon: "file-check-2",
+              badge: "Fast",
+              color: "bg-emerald-600",
+              startingPrice: "₦500 / page",
+              rate: 500,
+              unit: "Page",
+              highlights: [
+                "Tracked changes",
+                "Grammar & syntax",
+                "Academic tone polish",
+              ],
+            },
+            {
+              id: 7,
+              title: "Referencing and citation formatting",
+              desc: "Cross-verification of in-text citations against reference bibliographies in APA 7th, IEEE, Harvard, or Chicago styles.",
+              category: "editing",
+              icon: "quote",
+              badge: "Essential",
+              color: "bg-amber-600",
+              startingPrice: "₦1,500 / paper",
+              rate: 1500,
+              unit: "Paper",
+              highlights: [
+                "APA 7, IEEE, Harvard",
+                "Clean verification",
+                "Zero missing links",
+              ],
+            },
+            {
+              id: 8,
+              title: "Data analysis and charts",
+              desc: "Statistical computation via SPSS, Excel, R, Python, and STATA. Includes regression models, hypotheses tests, and APA charts.",
+              category: "data",
+              icon: "bar-chart-3",
+              badge: "STEM & Social",
+              color: "bg-cyan-600",
+              startingPrice: "₦12,000 / package",
+              rate: 12000,
+              unit: "Dataset",
+              highlights: [
+                "SPSS, R, Excel, STATA",
+                "Hypothesis testing",
+                "APA-formatted charts",
+              ],
+            },
+            {
+              id: 9,
+              title: "PowerPoint presentation design",
+              desc: "Professional defense slide decks featuring clear typography, infographics, and structured speaker cards.",
+              category: "data",
+              icon: "presentation",
+              badge: "Design",
+              color: "bg-rose-600",
+              startingPrice: "₦500 / slide",
+              rate: 500,
+              unit: "Slide",
+              highlights: [
+                "Custom slide master",
+                "Speaker notes included",
+                "Infographics",
+              ],
+            },
+            {
+              id: 10,
+              title: "Seminar presentation preparation",
+              desc: "Specialized departmental seminar coaching: speech script rehearsal, timing, and mock defense Q&A guides.",
+              category: "data",
+              icon: "mic",
+              badge: "Coaching",
+              color: "bg-orange-600",
+              startingPrice: "₦2,000 / package",
+              rate: 2000,
+              unit: "Session",
+              highlights: [
+                "Q&A cheat sheets",
+                "Speech coaching script",
+                "Timer rehearsals",
+              ],
+            },
+            {
+              id: 11,
+              title: "CV/resume creation",
+              desc: "ATS-optimized academic and graduate CVs highlighting coursework, projects, internships, and core competencies.",
+              category: "career",
+              icon: "file-badge",
+              badge: "Career",
+              color: "bg-teal-600",
+              startingPrice: "₦1,500 / CV",
+              rate: 1500,
+              unit: "CV",
+              highlights: [
+                "ATS-compliant format",
+                "Graduate & NYSC focus",
+                "Action-verb optimization",
+              ],
+            },
+            {
+              id: 12,
+              title: "Cover letters",
+              desc: "Persuasive, targeted cover letters designed for graduate trainee schemes, internships, and scholarship candidacies.",
+              category: "career",
+              icon: "mail-open",
+              badge: "Career",
+              color: "bg-emerald-700",
+              startingPrice: "₦1,000 / letter",
+              rate: 1000,
+              unit: "Letter",
+              highlights: [
+                "Internships & trainees",
+                "Scholarship focus",
+                "Custom narrative",
+              ],
+            },
+            {
+              id: 13,
+              title: "Document conversion",
+              desc: "Clean conversion across PDF, Word, and LaTeX with OCR corrections preserving mathematical formulas.",
+              category: "print",
+              icon: "refresh-ccw",
+              badge: "Quick",
+              color: "bg-slate-600",
+              startingPrice: "₦500 / document",
+              rate: 500,
+              unit: "File",
+              highlights: [
+                "PDF to Word / LaTeX",
+                "Formula restoration",
+                "OCR scanned papers",
+              ],
+            },
+            {
+              id: 14,
+              title: "Printing/print-ready preparation",
+              desc: "PDF/X specifications, CMYK profiles, gutter margin alignments, bleeds, and hardcover binding layouts.",
+              category: "print",
+              icon: "printer",
+              badge: "Print-Ready",
+              color: "bg-indigo-700",
+              startingPrice: "₦1,000 / setup",
+              rate: 1000,
+              unit: "Setup",
+              highlights: [
+                "Gutter & bleed check",
+                "Hardcover binding spec",
+                "PDF/X compliance",
+              ],
+            },
+            {
+              id: 15,
+              title: "Other student-related services",
+              desc: "Custom assistance including survey and questionnaire design, academic transcript formatting, and study planners.",
+              category: "research",
+              icon: "sparkles",
+              badge: "Bespoke",
+              color: "bg-purple-600",
+              startingPrice: "₦2,000 / request",
+              rate: 2000,
+              unit: "Request",
+              highlights: [
+                "Questionnaire drafting",
+                "Study schedules",
+                "Portfolio styling",
+              ],
+            },
+            {
+              id: 16,
+              title: "NIN/BVN Services",
+              desc: "Official NIN/BVN slips, plastic ID cards and validation. Choose your service type when you request.",
+              category: "print",
+              icon: "credit-card",
+              badge: "Official",
+              color: "bg-slate-800",
+              startingPrice: "₦500 – ₦3,500",
+              rate: 500,
+              unit: "Request",
+              highlights: ["NIN/BVN Slip", "Plastic Card", "Validation"],
+              options: [
+                { id: "slip", label: "NIN/BVN Slip", price: 500 },
+                { id: "plastic", label: "NIN/BVN Plastic", price: 3500 },
+                { id: "validation", label: "NIN/BVN Validation", price: 2500 },
+              ],
+            },
+            {
+              id: 17,
+              title: "NECO/WAEC/NABTEB Scratch Card",
+              desc: "Purchase a NECO/WAEC/NABTEB examination scratch card. Select this service to submit your order request.",
+              category: "exams",
+              icon: "ticket-check",
+              badge: "NECO/WAEC/NABTEB",
+              color: "bg-blue-700",
+              startingPrice: "₦1,500 – ₦6,500",
+              rate: 1500,
+              unit: "Scratch Card",
+              highlights: ["NABTEB", "NECO", "WAEC"],
+              options: [
+                { id: "NABTEB", label: "NABTEB Scratch Card", price: 1500 },
+                { id: "NECO", label: "NECO Scratch Card", price: 3500 },
+                { id: "WAEC", label: "WAEC Scratch Card", price: 6500 },
+              ],
+            },
+          ],
+          pricing: {
+            proofreading: {
+              label: "Proofreading & Editing (₦500 / page)",
+              rate: 500,
+              unit: "Page(s)",
+              max: 60,
+              title: "Proofreading & Editing",
+            },
+            formatting: {
+              label: "Typesetting & Formatting (₦200 / page)",
+              rate: 200,
+              unit: "Page(s)",
+              max: 60,
+              title: "Typesetting & Formatting",
+            },
+            powerpoint: {
+              label: "PowerPoint Presentation (₦500 / slide)",
+              rate: 500,
+              unit: "Slide(s)",
+              max: 60,
+              title: "PowerPoint Presentation Design",
+            },
+            thesis: {
+              label: "Thesis Support (₦1,200 / page)",
+              rate: 1200,
+              unit: "Page(s)",
+              max: 60,
+              title: "Thesis Support",
+            },
+            finalyear: {
+              label: "Final-year Project Support (₦12,000 / chapter)",
+              rate: 12000,
+              unit: "Chapter(s)",
+              max: 5,
+              title: "Final-year Project Support",
+            },
+            data: {
+              label: "Data Analysis (₦12,000 / package)",
+              rate: 12000,
+              unit: "Package(s)",
+              max: 5,
+              title: "Data Analysis & Statistical Charts",
+            },
+            cv: {
+              label: "CV & Cover Letter (₦1,500 each)",
+              rate: 1500,
+              unit: "Document(s)",
+              max: 5,
+              title: "CV & Cover Letter Development",
+            },
+          },
+          levelMultipliers: {
+            undergrad: 1.0,
+            masters: 1.25,
+            phd: 1.5,
+            career: 1.15,
+          },
+          urgencyMultipliers: { relaxed: 1.0, express: 1.25, rush: 1.5 },
+          estimator: {
+            service: "proofreading",
+            level: "undergrad",
+            volume: 1,
+            urgency: "relaxed",
+          },
+
+          /* Lifecycle & Backend Integration */
+          async initApp() {
+            this.generateCaptcha();
+            this.taskForm.deadline = this.defaultDeadline();
+            this.refreshIcons();
+
+            // Validate active backend session on page load
+            try {
+              const res = await fetch("/api/auth/me");
+              if (res.ok) {
+                const data = await res.json();
+                this.userLoggedIn = true;
+                this.currentUser = {
+                  name: data.user.full_name,
+                  email: data.user.email,
+                  institution: data.user.institution || "",
+                  initials: (data.user.full_name || "ST")
+                    .slice(0, 2)
+                    .toUpperCase(),
+                };
+                await this.fetchUserProjects();
+              }
+            } catch (e) {
+              console.warn("Backend offline or unauthenticated");
+            }
+
+            this.$watch("estimator.service", () => {
+              this.estimator.volume = Math.min(
+                this.estimator.volume,
+                this.maxVolume,
+              );
+            });
+            [
+              "paying",
+              "loginLoading",
+              "signupLoading",
+              "userProjects",
+              "redirectModal",
+              "userLoggedIn",
+              "portalTab",
+              "selectedCategory",
+              "searchQuery",
+              "mobileMenuOpen",
+              "loginModal",
+              "signupModal",
+              "portalModal",
+              "bookingModal",
+              "signupStep",
+            ].forEach((prop) => this.$watch(prop, () => this.refreshIcons()));
+            this.$watch("anyModalOpen", (open) => {
+              document.body.classList.toggle("modal-open", open);
+            });
+          },
+
+          async fetchUserProjects() {
+            try {
+              const res = await fetch("/api/orders");
+              if (res.ok) {
+                const data = await res.json();
+                this.userProjects = data.projects || [];
+              }
+            } catch (err) {
+              console.error("Failed to fetch user projects", err);
+            }
+          },
+
+          refreshIcons() {
+            this.$nextTick(() => {
+              if (window.lucide) window.lucide.createIcons();
+            });
+          },
+
+          /* Getters */
+          get anyModalOpen() {
+            return (
+              this.loginModal ||
+              this.signupModal ||
+              this.portalModal ||
+              this.bookingModal ||
+              this.redirectModal
+            );
+          },
+          get firstName() {
+            const name = (this.currentUser?.name || "").trim();
+            return name ? name.split(/\s+/)[0] : "Student";
+          },
+          get accountLine() {
+            const email = this.currentUser?.email || "";
+            const inst = this.currentUser?.institution || "";
+            return inst ? `${email} • ${inst}` : email;
+          },
+          get filteredServices() {
+            const q = this.searchQuery.trim().toLowerCase();
+            return this.services.filter((s) => {
+              const matchCat =
+                this.selectedCategory === "all" ||
+                s.category === this.selectedCategory;
+              if (!q) return matchCat;
+              return (
+                matchCat &&
+                (s.title + " " + s.desc + " " + s.highlights.join(" "))
+                  .toLowerCase()
+                  .includes(q)
+              );
+            });
+          },
+          get activeServiceConfig() {
+            return (
+              this.pricing[this.estimator.service] || this.pricing.proofreading
+            );
+          },
+          get unitLabel() {
+            return this.activeServiceConfig.unit;
+          },
+          get maxVolume() {
+            return this.activeServiceConfig.max;
+          },
+          get priceTotal() {
+            const cfg = this.activeServiceConfig;
+            const vol = Math.max(
+              1,
+              Math.min(Number(this.estimator.volume) || 1, cfg.max),
+            );
+            const lvl = this.levelMultipliers[this.estimator.level] ?? 1;
+            const urg = this.urgencyMultipliers[this.estimator.urgency] ?? 1;
+            return Math.round(cfg.rate * vol * lvl * urg);
+          },
+          get calculatedPrice() {
+            return this.priceTotal.toLocaleString("en-NG");
+          },
+          get priceBreakdown() {
+            const cfg = this.activeServiceConfig;
+            return `₦${cfg.rate.toLocaleString("en-NG")} base × ${this.estimator.volume} units × ${this.levelMultipliers[this.estimator.level]}x level × ${this.urgencyMultipliers[this.estimator.urgency]}x speed`;
+          },
+          get totalDue() {
+            if (this.fixedAmount > 0) return this.fixedAmount;
+            if (this.currentRate > 0)
+              return this.currentRate * (Number(this.taskForm.volume) || 1);
+            return 0;
+          },
+          get currentRate() {
+            const o = this.serviceOptions.find(
+              (x) => x.id === this.selectedOption,
+            );
+            return o ? o.price : this.unitRate;
+          },
+          get isIdService() {
+            return this.serviceOptions.length > 0;
+          },
+          get todayISO() {
+            const d = new Date();
+            d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+            return d.toISOString().split("T")[0];
+          },
+          get activeChatProject() {
+            if (!this.userProjects.length) return null;
+            return (
+              this.userProjects.find(
+                (p) => p.id === this.activeChatProjectId,
+              ) || this.userProjects[0]
+            );
+          },
+
+          /* Helpers */
+          defaultDeadline() {
+            const d = new Date();
+            d.setDate(d.getDate() + 4);
+            d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+            return d.toISOString().split("T")[0];
+          },
+          formatDate(iso) {
+            if (!iso) return "—";
+            const d = new Date(iso + "T00:00:00");
+            return isNaN(d)
+              ? iso
+              : d.toLocaleDateString("en-NG", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                });
+          },
+          isValidEmail(v) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((v || "").trim());
+          },
+          notify(title, message, type = "success") {
+            clearTimeout(this._toastTimer);
+            Object.assign(this.toast, { title, message, type, show: true });
+            this.refreshIcons();
+            this._toastTimer = setTimeout(() => {
+              this.toast.show = false;
+            }, 5000);
+          },
+          closeTopMostModal() {
+            if (this.redirectModal) {
+              this.redirectModal = false;
+              return;
+            }
+            if (this.bookingModal) {
+              this.bookingModal = false;
+              return;
+            }
+            if (this.portalModal) {
+              this.portalModal = false;
+              return;
+            }
+            if (this.signupModal) {
+              this.signupModal = false;
+              return;
+            }
+            if (this.loginModal) {
+              this.loginModal = false;
+              return;
+            }
+            if (this.mobileMenuOpen) this.mobileMenuOpen = false;
+          },
+          generateCaptcha() {
+            this.captchaNum1 = Math.floor(1 + Math.random() * 9);
+            this.captchaNum2 = Math.floor(1 + Math.random() * 9);
+            this.captchaInput = "";
+            this.captchaError = "";
+          },
+
+          /* Authentication Methods */
+          openLoginModal() {
+            if (this.userLoggedIn) {
+              this.openPortal("orders");
+              return;
+            }
+            this.loginError = "";
+            this.loginModal = true;
+          },
+          async handleLoginSubmit() {
+            this.loginError = "";
+            if (!this.isValidEmail(this.loginForm.email)) {
+              this.loginError =
+                "Please enter a valid university or personal email.";
+              return;
+            }
+            if (
+              !this.loginForm.password ||
+              this.loginForm.password.length < 6
+            ) {
+              this.loginError = "Password must be at least 6 characters.";
+              return;
+            }
+            this.loginLoading = true;
+            try {
+              const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  email: this.loginForm.email,
+                  password: this.loginForm.password,
+                }),
+              });
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error || "Login failed");
+
+              this.userLoggedIn = true;
+              this.loginModal = false;
+              this.currentUser = {
+                name: data.user.name,
+                email: data.user.email,
+                initials: data.user.name.slice(0, 2).toUpperCase(),
+                institution: data.user.institution || "",
+              };
+              this.loginForm.password = "";
+              await this.fetchUserProjects();
+              this.notify(
+                "Signed In",
+                `Welcome back, ${this.currentUser.name}`,
+              );
+            } catch (err) {
+              this.loginError = err.message;
+            } finally {
+              this.loginLoading = false;
+            }
+          },
+
+          openSignupModal() {
+            this.signupStep = 1;
+            this.signupError = "";
+            this.generateCaptcha();
+            this.signupModal = true;
+          },
+          async handleSignupSubmit() {
+            this.signupError = "";
+            this.captchaError = "";
+            if (!this.signupForm.fullName) {
+              this.signupError = "Please enter your full name.";
+              return;
+            }
+            if (!this.isValidEmail(this.signupForm.email)) {
+              this.signupError = "Please enter a valid email.";
+              return;
+            }
+            if (
+              !this.signupForm.password ||
+              this.signupForm.password.length < 6
+            ) {
+              this.signupError = "Password must be at least 6 characters.";
+              return;
+            }
+            if (
+              parseInt(this.captchaInput, 10) !==
+              this.captchaNum1 + this.captchaNum2
+            ) {
+              this.captchaError = "Incorrect arithmetic answer. Please verify.";
+              this.generateCaptcha();
+              return;
+            }
+            this.signupLoading = true;
+            try {
+              const res = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  fullName: this.signupForm.fullName,
+                  email: this.signupForm.email,
+                  institution: this.signupForm.institution,
+                  password: this.signupForm.password,
+                }),
+              });
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error || "Registration failed");
+
+              this.userLoggedIn = true;
+              this.currentUser = {
+                name: data.user.name,
+                email: data.user.email,
+                institution: data.user.institution || "",
+                initials: data.user.name.slice(0, 2).toUpperCase(),
+              };
+              this.signupForm.password = "";
+              await this.fetchUserProjects();
+              this.signupStep = 2;
+            } catch (err) {
+              this.signupError = err.message;
+            } finally {
+              this.signupLoading = false;
+            }
+          },
+          finishRegistrationAndGoToServices() {
+            this.signupModal = false;
+            const el = document.getElementById("services");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          },
+          async handleLogout() {
+            try {
+              await fetch("/api/auth/logout", { method: "POST" });
+            } catch (e) {}
+            this.userLoggedIn = false;
+            this.portalModal = false;
+            this.bookingModal = false;
+            this.mobileMenuOpen = false;
+            this.userProjects = [];
+            this.currentUser = {
+              name: "",
+              email: "",
+              initials: "ST",
+              institution: "",
+            };
+            this.notify("Signed Out", "You have been safely signed out.");
+          },
+
+          /* Portal & Order Handlers */
+          openPortal(tab = "orders") {
+            this.portalTab = tab;
+            this.portalModal = true;
+          },
+          handleServiceBooking(service) {
+            if (!this.userLoggedIn) {
+              this.notify(
+                "Registration Required",
+                "Create an account to submit project specifications.",
+                "error",
+              );
+              this.openSignupModal();
+              return;
+            }
+            this.activeServiceTitle = service.title;
+            this.fixedAmount = 0;
+            this.unitRate = service.rate || 0;
+            this.unitTitle = service.unit || "Units";
+            this.serviceOptions = service.options || [];
+            this.selectedOption = this.serviceOptions[0]?.id || "";
+            this.taskForm.volume = 1;
+            this.resetFiles();
+            this.taskError = "";
+            this.bookingModal = true;
+          },
+          openQuoteBooking() {
+            if (!this.userLoggedIn) {
+              this.notify(
+                "Registration Required",
+                "Create an account to claim this calculated quote.",
+                "error",
+              );
+              this.openSignupModal();
+              return;
+            }
+            this.activeServiceTitle = this.activeServiceConfig.title;
+            this.fixedAmount = this.priceTotal;
+            this.unitRate = 0;
+            this.taskForm.volume = Math.min(
+              this.estimator.volume,
+              this.maxVolume,
+            );
+            this.unitTitle = this.activeServiceConfig.unit;
+            this.serviceOptions = [];
+            this.selectedOption = "";
+            this.resetFiles();
+            this.taskError = "";
+            this.bookingModal = true;
+          },
+          openQuickBookingModal(title = "Academic Support Brief", amount = 0) {
+            if (!this.userLoggedIn) {
+              this.notify(
+                "Registration Required",
+                "Please sign in or register to submit a request.",
+                "error",
+              );
+              this.openSignupModal();
+              return;
+            }
+            this.activeServiceTitle = title;
+            this.fixedAmount = amount;
+            this.serviceOptions = [];
+            this.selectedOption = "";
+            this.unitRate = 0;
+            this.taskForm.volume = 1;
+            this.resetFiles();
+            this.taskError = "";
+            this.bookingModal = true;
+          },
+
+          /* Task Request & Paystack Verification */
+          submitTaskRequest() {
+            this.taskError = "";
+            if (!this.isIdService && !this.taskForm.subject) {
+              this.taskError =
+                "Please state your academic subject or department.";
+              return;
+            }
+            if (!this.taskForm.instructions) {
+              this.taskError =
+                "Please specify requirements or supervisor directions.";
+              return;
+            }
+            if (
+              !this.taskForm.deadline ||
+              this.taskForm.deadline < this.todayISO
+            ) {
+              this.taskError = "Please designate a valid future deadline.";
+              return;
+            }
+            if (this.totalDue > 0) {
+              this.processPaystackPayment();
+            } else {
+              this.finalizeTaskSubmission("");
+            }
+          },
+
+          processPaystackPayment() {
+            if (typeof PaystackPop === "undefined") {
+              this.taskError =
+                "Payment script unavailable. Please verify internet connection.";
+              return;
+            }
+            this.paying = true;
+            let paid = false;
+            const reference =
+              "SS_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+
+            try {
+              const handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: this.currentUser.email,
+                amount: this.totalDue * 100, // Kobo
+                currency: "NGN",
+                ref: reference,
+                metadata: {
+                  custom_fields: [
+                    {
+                      display_name: "Service",
+                      variable_name: "service",
+                      value: this.activeServiceTitle,
+                    },
+                    {
+                      display_name: "Student Name",
+                      variable_name: "student_name",
+                      value: this.currentUser.name,
+                    },
+                    {
+                      display_name: "Units",
+                      variable_name: "units",
+                      value: this.taskForm.volume,
+                    },
+                  ],
+                },
+                callback: async (res) => {
+                  paid = true;
+                  const verifiedRef = res.reference || reference;
+                  try {
+                    // Server-side payment validation
+                    await fetch("/api/payments/verify", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ reference: verifiedRef }),
+                    });
+                  } catch (e) {
+                    console.warn(
+                      "Payment verification ping handled by webhook fallback",
+                    );
+                  }
+                  this.paying = false;
+                  this.finalizeTaskSubmission(verifiedRef);
+                },
+                onClose: () => {
+                  this.paying = false;
+                  if (paid) return;
+                  this.notify(
+                    "Payment Aborted",
+                    "Your order was not billed. You can re-open checkout anytime.",
+                    "error",
+                  );
+                },
+              });
+              handler.openIframe();
+            } catch (e) {
+              this.paying = false;
+              this.taskError = "Could not start payment. Please try again.";
+            } finally {
+              setTimeout(() => {
+                if (this.paying) this.paying = false;
+              }, 15000);
+            }
+          },
+
+          async finalizeTaskSubmission(reference) {
+            const opt = this.serviceOptions.find(
+              (o) => o.id === this.selectedOption,
+            );
+            const serviceLabel = opt
+              ? `${this.activeServiceTitle} — ${opt.label}`
+              : this.activeServiceTitle;
+
+            // Multipart FormData upload storing actual files in SQLite backend
+            const formData = new FormData();
+            formData.append("service", serviceLabel);
+            formData.append(
+              "subject",
+              this.isIdService ? "ID Services" : this.taskForm.subject,
+            );
+            formData.append("deadline", this.taskForm.deadline);
+            formData.append("referencing", this.taskForm.referencing);
+            formData.append("instructions", this.taskForm.instructions);
+            formData.append("volume", this.taskForm.volume);
+            formData.append("unitTitle", this.unitTitle);
+            formData.append("amount", this.totalDue);
+            if (reference) formData.append("paymentRef", reference);
+
+            for (const file of this._formFilesRef) {
+              formData.append("files", file);
+            }
+
+            try {
+              const res = await fetch("/api/orders", {
+                method: "POST",
+                body: formData,
+              });
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error || "Submission failed");
+
+              const projectId = data.orderId;
+              const waUrl = this.buildWhatsAppLink(
+                projectId,
+                reference,
+                serviceLabel,
+              );
+
+              await this.fetchUserProjects();
+              this.activeChatProjectId = projectId;
+              this.lastProject =
+                this.userProjects.find((p) => p.id === projectId) || null;
+              this.activeWhatsAppUrl = waUrl;
+              this.bookingModal = false;
+
+              this.sharedFiles = this.taskFiles.map((f) => f.name);
+              this._shareFilesRef = (this._formFilesRef || []).slice();
+              this.resetFiles();
+              this.redirectModal = true;
+
+              this.taskForm.subject = "";
+              this.taskForm.instructions = "";
+              this.taskForm.deadline = this.defaultDeadline();
+              this.taskForm.volume = 1;
+            } catch (err) {
+              this.taskError = err.message;
+            }
+          },
+
+          async sendChatMessage() {
+            const text = this.chatDraft.trim();
+            const project = this.activeChatProject;
+            if (!text || !project) return;
+
+            try {
+              const res = await fetch(`/api/orders/${project.id}/messages`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text }),
+              });
+              if (res.ok) {
+                project.messages.push({ from: "me", text });
+                this.chatDraft = "";
+                this.$nextTick(() => {
+                  const box = this.$refs.chatScroll;
+                  if (box) box.scrollTop = box.scrollHeight;
+                });
+              }
+            } catch (err) {
+              this.notify("Error", "Unable to send message to lead", "error");
+            }
+          },
+
+          trackLink(p) {
+            return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello, please update me on project " + p.id)}`;
+          },
+          printReceipt(p) {
+            if (!p || !p.paymentRef) return;
+            const esc = (s) =>
+              String(s ?? "").replace(
+                /[&<>"']/g,
+                (c) =>
+                  ({
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;",
+                  })[c],
+              );
+            const rows = [
+              ["Receipt No.", "RC-" + p.id.replace("SS-", "")],
+              ["Date", new Date(p.paidAt || Date.now()).toLocaleString("en-NG")],
+              ["Student", this.currentUser.name],
+              ["Email", this.currentUser.email],
+              ["Service", p.service],
+              ["Quantity", (p.volume || 1) + " " + (p.unitTitle || "")],
+              ["Project ID", p.id],
+              ["Payment Ref", p.paymentRef],
+              ["Amount Paid", "₦" + Number(p.amount).toLocaleString("en-NG")],
+            ];
+            const test = PAYSTACK_PUBLIC_KEY.startsWith("pk_test")
+              ? '<p style="color:#b91c1c"><b>TEST MODE PAYMENT</b></p>'
+              : "";
+            const html = `<!doctype html><html><head><meta charset="utf-8"><title>Receipt ${esc(p.id)}</title>
+              <style>body{font-family:Arial,sans-serif;max-width:560px;margin:30px auto;color:#0f172a}h1{color:#4f46e5;margin:0}
+              table{width:100%;border-collapse:collapse;margin-top:16px}td{padding:8px;border-bottom:1px solid #e2e8f0;font-size:14px}
+              td:first-child{color:#64748b;width:38%}</style></head><body><h1>StudentSolve</h1><p>Payment Receipt</p>${test}
+              <table>${rows.map((r) => `<tr><td>${esc(r[0])}</td><td><b>${esc(r[1])}</b></td></tr>`).join("")}</table>
+              <p style="margin-top:24px;font-size:12px;color:#64748b">Thank you for your payment. Keep this receipt for your records.</p></body></html>`;
+            const fr = document.createElement("iframe");
+            fr.style.cssText =
+              "position:fixed;width:0;height:0;border:0;right:0;bottom:0";
+            document.body.appendChild(fr);
+            fr.contentDocument.open();
+            fr.contentDocument.write(html);
+            fr.contentDocument.close();
+            setTimeout(() => {
+              fr.contentWindow.focus();
+              fr.contentWindow.print();
+              setTimeout(() => fr.remove(), 10000);
+            }, 300);
+          },
+          resetFiles() {
+            this._formFilesRef = [];
+            this.taskFiles = [];
+          },
+          handleFiles(ev) {
+            const picked = Array.from(ev.target.files || []);
+            ev.target.value = "";
+            let skipped = "";
+            for (const f of picked) {
+              if (this._formFilesRef.length >= MAX_FILES) {
+                skipped = `Only ${MAX_FILES} files can be attached.`;
+                break;
+              }
+              if (f.size > MAX_FILE_MB * 1024 * 1024) {
+                skipped = `"${f.name}" is larger than ${MAX_FILE_MB} MB and was skipped.`;
+                continue;
+              }
+              if (
+                this._formFilesRef.some(
+                  (x) => x.name === f.name && x.size === f.size,
+                )
+              )
+                continue;
+              this._formFilesRef.push(f);
+            }
+            this.taskFiles = this._formFilesRef.map((f) => ({
+              name: f.name,
+              sizeLabel:
+                f.size >= 1048576
+                  ? (f.size / 1048576).toFixed(1) + " MB"
+                  : Math.max(1, Math.round(f.size / 1024)) + " KB",
+            }));
+            this.taskError = skipped;
+            this.refreshIcons();
+          },
+          removeFile(i) {
+            this._formFilesRef.splice(i, 1);
+            this.taskFiles.splice(i, 1);
+          },
+          buildWhatsAppLink(
+            projectId,
+            reference = "",
+            serviceLabel = this.activeServiceTitle,
+          ) {
+            const lines = [
+              `*STUDENTSOLVE ACADEMIC TASK — ${projectId}*`,
+              reference
+                ? `✅ *Payment Verified:* ₦${this.totalDue.toLocaleString("en-NG")} (Ref: ${reference})`
+                : "📝 *Type:* Direct Review / Quote Consultation",
+              `*Service:* ${serviceLabel}`,
+              `*Scope / Units:* ${this.taskForm.volume} ${this.unitTitle}`,
+              `*Student:* ${this.currentUser.name}`,
+              `*Email:* ${this.currentUser.email}`,
+              this.currentUser.institution
+                ? `*Institution:* ${this.currentUser.institution}`
+                : null,
+              this.isIdService ? null : `*Subject:* ${this.taskForm.subject}`,
+              `*Deadline:* ${this.taskForm.deadline}`,
+              this.isIdService
+                ? null
+                : `*Citation Style:* ${this.taskForm.referencing}`,
+              "",
+              this.isIdService
+                ? `*NIN/BVN Details:*`
+                : `*Project Scope & Brief:*`,
+              this.taskForm.instructions,
+              "",
+              this.taskFiles.length
+                ? `📎 *Files (${this.taskFiles.length}):* ${this.taskFiles.map((f) => f.name).join(", ")}`
+                : `📎 _Attaching document/rubric directly in this thread._`,
+            ]
+              .filter(Boolean)
+              .join("\n");
+            return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines)}`;
+          },
+        };
+      }
+    </script>
+  </body>
+</html>
