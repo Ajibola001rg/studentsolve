@@ -48,7 +48,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Expose public client configuration
 app.get('/api/config', (req, res) => {
   res.json({
-    paystackPublicKey: process.env.PAYSTACK_PUBLIC_KEY || 'pk_live_455aeee379e6ab863900c4db8a5015f406c171f2',
+    paystackPublicKey: process.env.PAYSTACK_PUBLIC_KEY || 'pk_live_d7f5cb6af1d69d0cdb16c74a3ff7e76ea71526a3',
     whatsappNumber: process.env.WHATSAPP_NUMBER || '2347035131909'
   });
 });
